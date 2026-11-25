@@ -1,13 +1,11 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
 function getHeaders(extra?: Record<string, string>): Record<string, string> {
   const headers: Record<string, string> = { ...(extra || {}) };
   if (typeof window !== "undefined") {
     const storedKey = localStorage.getItem("cardguard_api_key");
     const key = storedKey || process.env.NEXT_PUBLIC_API_KEY;
-    if (key) {
-      headers["X-API-Key"] = key;
-    }
+    if (key) headers["X-API-Key"] = key;
   } else if (process.env.NEXT_PUBLIC_API_KEY) {
     headers["X-API-Key"] = process.env.NEXT_PUBLIC_API_KEY;
   }
@@ -19,7 +17,7 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
     ...init,
     headers: getHeaders(
       init?.body instanceof FormData
-        ? undefined
+        ? (init?.headers as Record<string, string> | undefined)
         : { "Content-Type": "application/json", ...(init?.headers as Record<string, string>) }
     ),
     cache: "no-store",
@@ -29,9 +27,7 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
     try {
       const err = await res.json();
       if (err?.detail) msg = err.detail;
-    } catch {
-      // ignore parse failure
-    }
+    } catch {}
     throw new Error(msg);
   }
   return res.json();
