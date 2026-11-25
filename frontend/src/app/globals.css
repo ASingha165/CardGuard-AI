@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: #101211;
+  color: #f1f1ee;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom minimal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #101211;
+}
+::-webkit-scrollbar-thumb {
+  background: #2f3130;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #454746;
+}

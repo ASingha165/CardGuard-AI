@@ -1,0 +1,378 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fraud Network Explorer — CardGuard AI</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'primary': '#C8F169',
+        'on-primary': '#151F00',
+        'primary-container': '#263500',
+        'on-primary-container': '#D8FF7E',
+        'surface': '#101211',
+        'surface-container-lowest': '#0A0C0B',
+        'surface-container-low': '#151816',
+        'surface-container': '#1A1C1B',
+        'surface-container-high': '#222523',
+        'surface-container-highest': '#2F3130',
+        'on-surface': '#F1F1EE',
+        'on-surface-variant': '#90918F',
+        'outline': '#454746',
+        'outline-variant': '#2F3130',
+        'success': '#3FB950',
+        'on-success': '#002105',
+        'success-container': '#00390D',
+        'on-success-container': '#83FC89',
+        'warning': '#F5B041',
+        'on-warning': '#291800',
+        'warning-container': '#442B00',
+        'on-warning-container': '#FFDDB2',
+        'danger': '#FF5A5F',
+        'on-danger': '#410007',
+        'danger-container': '#680010',
+        'on-danger-container': '#FFDAD8',
+        'info': '#58A6FF',
+        'on-info': '#001C38',
+        'info-container': '#00315C',
+        'on-info-container': '#D3E4FF',
+        'error': '#FF5A5F',
+        'on-error': '#410007',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '10px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '16px',
+        'gutter-lg': '24px',
+        'gutter-xl': '32px',
+        'section': '40px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Alatsi"', 'sans-serif'],
+        'headline': ['"Alatsi"', 'sans-serif'],
+        'title': ['"Instrument Sans"', 'sans-serif'],
+        'body': ['"Instrument Sans"', 'sans-serif'],
+        'label': ['"Instrument Sans"', 'sans-serif'],
+        'mono': ['"Red Hat Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '44px', letterSpacing: '-0.75px', fontWeight: '400' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.5px', fontWeight: '400' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '400' }],
+        'headline-md': ['20px', { lineHeight: '26px', letterSpacing: '-0.2px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['13px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '500' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.4px', fontWeight: '500' }],
+        'mono-lg': ['24px', { lineHeight: '30px', letterSpacing: '-0.5px', fontWeight: '600' }],
+        'mono-md': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '500' }],
+        'mono-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.2px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.4, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Alatsi&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=Red+Hat+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary selection:text-on-primary">
+
+  <div class="min-h-[1024px] flex flex-col lg:flex-row" data-stitch-vh="min-h-[1024px]===min-h-screen">
+    <!-- Mobile Top Bar -->
+    <header class="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-surface-container-low border-b border-outline-variant">
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-primary-container text-primary">
+          <span class="material-symbols-outlined text-title-md">shield_lock</span>
+        </span>
+        <span data-design-text-token="title-md" class="font-title text-title-md text-on-surface">CardGuard AI</span>
+      </div>
+      <button type="button" id="mobile-menu-btn" aria-label="Open navigation" class="inline-flex items-center justify-center w-9 h-9 rounded bg-surface-container-high border border-outline-variant text-on-surface">
+        <span class="material-symbols-outlined text-title-md">menu</span>
+      </button>
+    </header>
+
+    <div id="sidebar-backdrop" class="hidden fixed inset-0 z-40 bg-surface-container-lowest/80 lg:hidden"></div>
+
+    <!-- Shared Sidebar Navigation -->
+    <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full lg:translate-x-0 lg:sticky lg:top-0 min-h-[1024px] bg-surface-container-low border-r border-outline-variant flex flex-col justify-between p-4 transition-transform duration-surface-enter ease-surface-enter" data-stitch-vh="min-h-[1024px]===min-h-screen">
+      <div class="flex flex-col gap-6">
+        <div class="flex items-center justify-between px-2 pt-1">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-md bg-primary-container text-primary border border-primary/25">
+              <span class="material-symbols-outlined text-headline-md">shield_lock</span>
+            </span>
+            <div class="flex flex-col">
+              <span data-design-text-token="title-md" class="font-title text-title-md text-on-surface">CardGuard AI</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-surface-variant">v4.2 • Fraud Intel</span>
+            </div>
+          </div>
+          <button type="button" id="mobile-close-btn" aria-label="Close navigation" class="lg:hidden inline-flex items-center justify-center w-8 h-8 rounded text-on-surface-variant hover:text-on-surface">
+            <span class="material-symbols-outlined text-title-md">close</span>
+          </button>
+        </div>
+
+        <nav aria-label="Primary" class="flex flex-col gap-1">
+          <a href="../executive-dashboard/ExecutiveDashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">monitoring</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Executive Dashboard</span>
+          </a>
+          <a href="../transaction-intelligence/TransactionIntelligence.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">receipt_long</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Transaction Intel</span>
+          </a>
+          <a href="../ai-investigation/AIInvestigationWorkspace.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">psychology</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">AI Investigation</span>
+          </a>
+          <a href="../fraud-network/FraudNetworkExplorer.html" aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded bg-primary-container text-on-primary-container border border-primary/25 transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md text-primary" aria-hidden="true">hub</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Fraud Network</span>
+          </a>
+          <a href="../model-intelligence/ModelIntelligence.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">model_training</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Model Intelligence</span>
+          </a>
+          <a href="../dataset-laboratory/DatasetLaboratory.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">science</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Dataset Laboratory</span>
+          </a>
+          <a href="../reports-history/ReportsHistory.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">description</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Reports &amp; History</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="pt-4 border-t border-outline-variant flex flex-col gap-2 px-2">
+        <span data-component-id="badge-status" data-component-type="badge" data-component-variant="status" role="status" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container border border-primary/25 w-fit">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+          <span data-design-text-token="label-sm" class="font-label text-label-sm">Synthetic Demo Data</span>
+        </span>
+        <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">
+          CardGuard-Synthetic-v4.2 • Non-production telemetry
+        </p>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 max-w-[1440px] mx-auto w-full flex flex-col gap-6">
+      <header class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <h1 data-design-text-token="display-lg" class="font-headline text-display-lg-mobile lg:text-display-lg text-on-surface text-balance">Fraud Network Explorer</h1>
+          <p data-design-text-token="body-md" class="font-body text-body-md text-on-surface-variant text-pretty">
+            Interactive entity graph uncovering shared devices, repeated merchants, and coordinated fraud rings.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Graph highlight mode">
+          <button type="button" data-highlight="all" class="graph-filter px-3 py-1.5 rounded-full font-label text-label-lg bg-primary text-on-primary transition-colors duration-state-change">All Links</button>
+          <button type="button" data-highlight="device" class="graph-filter px-3 py-1.5 rounded-full font-label text-label-lg bg-surface-container border border-outline-variant text-on-surface-variant hover:text-on-surface transition-colors duration-state-change">Shared Devices</button>
+          <button type="button" data-highlight="merchant" class="graph-filter px-3 py-1.5 rounded-full font-label text-label-lg bg-surface-container border border-outline-variant text-on-surface-variant hover:text-on-surface transition-colors duration-state-change">Repeated Merchants</button>
+        </div>
+      </header>
+
+      <!-- Graph + Inspector Grid -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <!-- Interactive Graph Canvas (8 cols) -->
+        <article class="lg:col-span-8 bg-surface-container border border-outline-variant rounded-lg p-5 flex flex-col gap-4">
+          <header class="flex items-center justify-between gap-3">
+            <span data-design-text-token="title-md" class="font-title text-title-md text-on-surface">Cluster #CG-RING-09 • 7 Connected Entities</span>
+            <div class="flex items-center gap-4 text-label-sm text-on-surface-variant">
+              <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-danger"></span> Device Hub</span>
+              <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-primary"></span> Account</span>
+              <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-info"></span> Merchant</span>
+            </div>
+          </header>
+
+          <div class="w-full h-[420px] bg-surface-container-lowest rounded-md border border-outline-variant overflow-hidden relative">
+            <svg id="network-svg" viewBox="0 0 720 420" class="w-full h-full" role="img" aria-label="Interactive fraud relationship graph">
+              <!-- Edges -->
+              <g id="graph-edges" stroke-linecap="round">
+                <line data-type="device" x1="360" y1="210" x2="170" y2="110" stroke="#FF5A5F" stroke-width="3"></line>
+                <line data-type="device" x1="360" y1="210" x2="170" y2="220" stroke="#FF5A5F" stroke-width="2.5"></line>
+                <line data-type="device" x1="360" y1="210" x2="170" y2="330" stroke="#FF5A5F" stroke-width="2.5"></line>
+                <line data-type="merchant" x1="170" y1="110" x2="550" y2="120" stroke="#C8F169" stroke-width="2" stroke-dasharray="5 4"></line>
+                <line data-type="merchant" x1="170" y1="220" x2="550" y2="220" stroke="#58A6FF" stroke-width="2"></line>
+                <line data-type="merchant" x1="170" y1="330" x2="550" y2="310" stroke="#58A6FF" stroke-width="2"></line>
+                <line data-type="merchant" x1="170" y1="220" x2="550" y2="120" stroke="#C8F169" stroke-width="1.5" stroke-dasharray="5 4"></line>
+              </g>
+
+              <!-- Nodes -->
+              <g id="graph-nodes">
+                <!-- Central Device -->
+                <g class="graph-node cursor-pointer" data-node="DEV-8841-X" transform="translate(360,210)" style="transform-box: fill-box; transform-origin: center;">
+                  <circle r="30" fill="#680010" stroke="#FF5A5F" stroke-width="2.5"></circle>
+                  <text y="4" text-anchor="middle" fill="#FFDAD8" font-family="Red Hat Mono" font-size="11" font-weight="600">DEV-8841</text>
+                </g>
+                <!-- Accounts -->
+                <g class="graph-node cursor-pointer" data-node="CARD-4491" transform="translate(170,110)" style="transform-box: fill-box; transform-origin: center;">
+                  <circle r="24" fill="#263500" stroke="#C8F169" stroke-width="2"></circle>
+                  <text y="4" text-anchor="middle" fill="#D8FF7E" font-family="Red Hat Mono" font-size="10">CARD-4491</text>
+                </g>
+                <g class="graph-node cursor-pointer" data-node="CARD-7720" transform="translate(170,220)" style="transform-box: fill-box; transform-origin: center;">
+                  <circle r="24" fill="#263500" stroke="#C8F169" stroke-width="2"></circle>
+                  <text y="4" text-anchor="middle" fill="#D8FF7E" font-family="Red Hat Mono" font-size="10">CARD-7720</text>
+                </g>
+                <g class="graph-node cursor-pointer" data-node="CARD-1093" transform="translate(170,330)" style="transform-box: fill-box; transform-origin: center;">
+                  <circle r="24" fill="#263500" stroke="#C8F169" stroke-width="2"></circle>
+                  <text y="4" text-anchor="middle" fill="#D8FF7E" font-family="Red Hat Mono" font-size="10">CARD-1093</text>
+                </g>
+                <!-- Merchants -->
+                <g class="graph-node cursor-pointer" data-node="Nordic Electronics" transform="translate(550,120)" style="transform-box: fill-box; transform-origin: center;">
+                  <circle r="26" fill="#00315C" stroke="#58A6FF" stroke-width="2"></circle>
+                  <text y="4" text-anchor="middle" fill="#D3E4FF" font-family="Instrument Sans" font-size="10" font-weight="600">Nordic Elec.</text>
+                </g>
+                <g class="graph-node cursor-pointer" data-node="Vortex Cloud" transform="translate(550,220)" style="transform-box: fill-box; transform-origin: center;">
+                  <circle r="26" fill="#00315C" stroke="#58A6FF" stroke-width="2"></circle>
+                  <text y="4" text-anchor="middle" fill="#D3E4FF" font-family="Instrument Sans" font-size="10" font-weight="600">Vortex Cloud</text>
+                </g>
+                <g class="graph-node cursor-pointer" data-node="BlueWave Cloud" transform="translate(550,310)" style="transform-box: fill-box; transform-origin: center;">
+                  <circle r="26" fill="#00315C" stroke="#58A6FF" stroke-width="2"></circle>
+                  <text y="4" text-anchor="middle" fill="#D3E4FF" font-family="Instrument Sans" font-size="10" font-weight="600">BlueWave</text>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </article>
+
+        <!-- Connection Inspector (4 cols) -->
+        <aside class="lg:col-span-4 bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col justify-between gap-5">
+          <div class="flex flex-col gap-4">
+            <header class="flex items-center justify-between gap-2">
+              <h2 id="inspector-title" data-design-text-token="headline-md" class="font-body text-headline-md text-on-surface">DEV-8841-X</h2>
+              <span id="inspector-badge" class="px-2.5 py-1 rounded-full bg-danger-container text-on-danger-container font-label text-label-sm">Device Hub</span>
+            </header>
+
+            <div class="p-4 rounded-md bg-surface-container-low border border-outline-variant flex flex-col gap-1">
+              <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant uppercase">Connection Strength</span>
+              <span id="inspector-strength" data-design-text-token="mono-lg" class="font-mono text-mono-lg text-primary tabular-nums">0.94 / 1.00</span>
+              <span id="inspector-sub" data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">3 cards linked within 18 minutes</span>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <h3 data-design-text-token="title-md" class="font-title text-title-md text-on-surface">Linked Evidence</h3>
+              <ul id="inspector-evidence" class="flex flex-col gap-2 text-body-sm text-on-surface-variant">
+                <li class="p-3 rounded bg-surface-container-low border border-outline-variant">TXN-98412-AF • $4,890.00 • Nordic Electronics</li>
+                <li class="p-3 rounded bg-surface-container-low border border-outline-variant">TXN-98409-KL • $2,340.00 • Vortex Digital Cloud</li>
+                <li class="p-3 rounded bg-surface-container-low border border-outline-variant">TXN-98364-ZT • $1,290.00 • BlueWave Cloud</li>
+              </ul>
+            </div>
+          </div>
+
+          <a href="../ai-investigation/AIInvestigationWorkspace.html" class="w-full text-center px-4 py-2.5 rounded bg-primary text-on-primary font-label text-label-lg hover:bg-on-primary-container transition-colors duration-state-change">
+            Inspect Cluster in AI Workspace
+          </a>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const sidebar = document.getElementById('app-sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      const openBtn = document.getElementById('mobile-menu-btn');
+      const closeBtn = document.getElementById('mobile-close-btn');
+      function toggleSidebar(open) {
+        sidebar.classList.toggle('-translate-x-full', !open);
+        backdrop.classList.toggle('hidden', !open);
+      }
+      if (openBtn) openBtn.addEventListener('click', () => toggleSidebar(true));
+      if (closeBtn) closeBtn.addEventListener('click', () => toggleSidebar(false));
+      if (backdrop) backdrop.addEventListener('click', () => toggleSidebar(false));
+
+      const nodeDetails = {
+        'DEV-8841-X': {
+          badge: 'Device Hub', strength: '0.94 / 1.00', sub: '3 cards linked within 18 minutes',
+          evidence: ['TXN-98412-AF • $4,890.00 • Nordic Electronics', 'TXN-98409-KL • $2,340.00 • Vortex Digital Cloud', 'TXN-98364-ZT • $1,290.00 • BlueWave Cloud']
+        },
+        'CARD-4491': {
+          badge: 'Compromised Card', strength: '0.91 / 1.00', sub: 'Shared device + high-ticket electronics',
+          evidence: ['TXN-98412-AF • $4,890.00 (Score 94)', 'Linked to DEV-8841-X in Berlin, DE']
+        },
+        'CARD-7720': {
+          badge: 'Compromised Card', strength: '0.88 / 1.00', sub: 'Cross-merchant velocity spike',
+          evidence: ['TXN-98409-KL • $2,340.00 (Score 88)', 'Attempted Nordic Electronics 6m prior']
+        },
+        'CARD-1093': {
+          badge: 'Compromised Card', strength: '0.86 / 1.00', sub: 'Cloud-compute burst pattern',
+          evidence: ['TXN-98364-ZT • $1,290.00 (Score 86)', 'Shared browser canvas hash']
+        },
+        'Nordic Electronics': {
+          badge: 'Repeated Merchant', strength: '0.82 / 1.00', sub: '2 linked high-risk cards in 24h',
+          evidence: ['MCC 5732 • High-value electronics', '24.5% chargeback elevation on CNP']
+        },
+        'Vortex Cloud': {
+          badge: 'Merchant', strength: '0.79 / 1.00', sub: 'Digital provisioning target',
+          evidence: ['MCC 5734 • Instant digital delivery', 'Linked to VPN exit nodes']
+        },
+        'BlueWave Cloud': {
+          badge: 'Merchant', strength: '0.75 / 1.00', sub: 'Cloud compute target',
+          evidence: ['MCC 5734 • $1,290.00 flagged alert']
+        }
+      };
+
+      document.querySelectorAll('.graph-node').forEach(node => {
+        node.addEventListener('click', () => {
+          const key = node.dataset.node;
+          const info = nodeDetails[key];
+          document.getElementById('inspector-title').textContent = key;
+          document.getElementById('inspector-badge').textContent = info.badge;
+          document.getElementById('inspector-strength').textContent = info.strength;
+          document.getElementById('inspector-sub').textContent = info.sub;
+          const ul = document.getElementById('inspector-evidence');
+          ul.innerHTML = info.evidence.map(e => `<li class="p-3 rounded bg-surface-container-low border border-outline-variant">${e}</li>`).join('');
+        });
+      });
+
+      document.querySelectorAll('.graph-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mode = btn.dataset.highlight;
+          document.querySelectorAll('.graph-filter').forEach(b => {
+            b.classList.remove('bg-primary', 'text-on-primary');
+            b.classList.add('bg-surface-container', 'border', 'border-outline-variant', 'text-on-surface-variant');
+          });
+          btn.classList.add('bg-primary', 'text-on-primary');
+          btn.classList.remove('bg-surface-container', 'border', 'border-outline-variant', 'text-on-surface-variant');
+
+          document.querySelectorAll('#graph-edges line').forEach(line => {
+            line.style.opacity = (mode === 'all' || line.dataset.type === mode) ? '1' : '0.18';
+          });
+        });
+      });
+    })();
+  </script>
+
+
+</body></html>

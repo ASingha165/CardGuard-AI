@@ -1,0 +1,594 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Dashboard — CardGuard AI</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'primary': '#C8F169',
+        'on-primary': '#151F00',
+        'primary-container': '#263500',
+        'on-primary-container': '#D8FF7E',
+        'surface': '#101211',
+        'surface-container-lowest': '#0A0C0B',
+        'surface-container-low': '#151816',
+        'surface-container': '#1A1C1B',
+        'surface-container-high': '#222523',
+        'surface-container-highest': '#2F3130',
+        'on-surface': '#F1F1EE',
+        'on-surface-variant': '#90918F',
+        'outline': '#454746',
+        'outline-variant': '#2F3130',
+        'success': '#3FB950',
+        'on-success': '#002105',
+        'success-container': '#00390D',
+        'on-success-container': '#83FC89',
+        'warning': '#F5B041',
+        'on-warning': '#291800',
+        'warning-container': '#442B00',
+        'on-warning-container': '#FFDDB2',
+        'danger': '#FF5A5F',
+        'on-danger': '#410007',
+        'danger-container': '#680010',
+        'on-danger-container': '#FFDAD8',
+        'info': '#58A6FF',
+        'on-info': '#001C38',
+        'info-container': '#00315C',
+        'on-info-container': '#D3E4FF',
+        'error': '#FF5A5F',
+        'on-error': '#410007',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '10px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '16px',
+        'gutter-lg': '24px',
+        'gutter-xl': '32px',
+        'section': '40px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Alatsi"', 'sans-serif'],
+        'headline': ['"Alatsi"', 'sans-serif'],
+        'title': ['"Instrument Sans"', 'sans-serif'],
+        'body': ['"Instrument Sans"', 'sans-serif'],
+        'label': ['"Instrument Sans"', 'sans-serif'],
+        'mono': ['"Red Hat Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '44px', letterSpacing: '-0.75px', fontWeight: '400' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.5px', fontWeight: '400' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '400' }],
+        'headline-md': ['20px', { lineHeight: '26px', letterSpacing: '-0.2px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['13px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '500' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.4px', fontWeight: '500' }],
+        'mono-lg': ['24px', { lineHeight: '30px', letterSpacing: '-0.5px', fontWeight: '600' }],
+        'mono-md': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '500' }],
+        'mono-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.2px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.4, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Alatsi&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=Red+Hat+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary selection:text-on-primary">
+
+  <div class="min-h-[1024px] flex flex-col lg:flex-row" data-stitch-vh="min-h-[1024px]===min-h-screen">
+    <!-- Mobile Top Bar -->
+    <header class="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-surface-container-low border-b border-outline-variant">
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-primary-container text-primary">
+          <span class="material-symbols-outlined text-title-md">shield_lock</span>
+        </span>
+        <span data-design-text-token="title-md" class="font-title text-title-md text-on-surface">CardGuard AI</span>
+      </div>
+      <button type="button" id="mobile-menu-btn" aria-label="Open navigation" class="inline-flex items-center justify-center w-9 h-9 rounded bg-surface-container-high border border-outline-variant text-on-surface">
+        <span class="material-symbols-outlined text-title-md">menu</span>
+      </button>
+    </header>
+
+    <!-- Mobile Backdrop -->
+    <div id="sidebar-backdrop" class="hidden fixed inset-0 z-40 bg-surface-container-lowest/80 lg:hidden"></div>
+
+    <!-- Shared Sidebar Navigation -->
+    <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full lg:translate-x-0 lg:sticky lg:top-0 min-h-[1024px] bg-surface-container-low border-r border-outline-variant flex flex-col justify-between p-4 transition-transform duration-surface-enter ease-surface-enter" data-stitch-vh="min-h-[1024px]===min-h-screen">
+      <div class="flex flex-col gap-6">
+        <!-- Brand -->
+        <div class="flex items-center justify-between px-2 pt-1">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-md bg-primary-container text-primary border border-primary/25">
+              <span class="material-symbols-outlined text-headline-md">shield_lock</span>
+            </span>
+            <div class="flex flex-col">
+              <span data-design-text-token="title-md" class="font-title text-title-md text-on-surface">CardGuard AI</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-surface-variant">v4.2 • Fraud Intel</span>
+            </div>
+          </div>
+          <button type="button" id="mobile-close-btn" aria-label="Close navigation" class="lg:hidden inline-flex items-center justify-center w-8 h-8 rounded text-on-surface-variant hover:text-on-surface">
+            <span class="material-symbols-outlined text-title-md">close</span>
+          </button>
+        </div>
+
+        <!-- Primary Navigation -->
+        <nav aria-label="Primary" class="flex flex-col gap-1">
+          <a href="../executive-dashboard/ExecutiveDashboard.html" aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded bg-primary-container text-on-primary-container border border-primary/25 transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md text-primary" aria-hidden="true">monitoring</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Executive Dashboard</span>
+          </a>
+          <a href="../transaction-intelligence/TransactionIntelligence.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">receipt_long</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Transaction Intel</span>
+          </a>
+          <a href="../ai-investigation/AIInvestigationWorkspace.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">psychology</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">AI Investigation</span>
+          </a>
+          <a href="../fraud-network/FraudNetworkExplorer.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">hub</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Fraud Network</span>
+          </a>
+          <a href="../model-intelligence/ModelIntelligence.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">model_training</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Model Intelligence</span>
+          </a>
+          <a href="../dataset-laboratory/DatasetLaboratory.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">science</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Dataset Laboratory</span>
+          </a>
+          <a href="../reports-history/ReportsHistory.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">description</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Reports &amp; History</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Provenance Footer -->
+      <div class="pt-4 border-t border-outline-variant flex flex-col gap-2 px-2">
+        <!-- COMPONENT: badge-status -->
+        <span data-component-id="badge-status" data-component-type="badge" data-component-variant="status" role="status" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container border border-primary/25 w-fit">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+          <span data-design-text-token="label-sm" class="font-label text-label-sm">Synthetic Demo Data</span>
+        </span>
+        <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">
+          CardGuard-Synthetic-v4.2 • Non-production telemetry
+        </p>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 max-w-[1440px] mx-auto w-full flex flex-col gap-6">
+      <!-- Page Header -->
+      <header class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <h1 data-design-text-token="display-lg" class="font-headline text-display-lg-mobile lg:text-display-lg text-on-surface text-balance">Executive Dashboard</h1>
+          <p data-design-text-token="body-md" class="font-body text-body-md text-on-surface-variant text-pretty">
+            Institutional fraud posture, model detection velocity, and high-priority anomalies.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <!-- Time Window Switcher -->
+          <div role="group" aria-label="Timeframe" class="inline-flex rounded bg-surface-container border border-outline-variant p-1">
+            <button type="button" data-range="7d" class="range-btn px-3 py-1.5 rounded-sm font-label text-label-lg text-on-surface-variant hover:text-on-surface transition-colors duration-state-change">7D</button>
+            <button type="button" data-range="30d" class="range-btn px-3 py-1.5 rounded-sm font-label text-label-lg bg-primary text-on-primary transition-colors duration-state-change">30D</button>
+            <button type="button" data-range="90d" class="range-btn px-3 py-1.5 rounded-sm font-label text-label-lg text-on-surface-variant hover:text-on-surface transition-colors duration-state-change">90D</button>
+          </div>
+
+          <!-- View State Previewer -->
+          <select id="view-state-select" aria-label="View state" class="rounded bg-surface-container border border-outline-variant px-3 py-2 font-label text-label-lg text-on-surface focus:border-primary focus:ring-1 focus:ring-primary">
+            <option value="ready">State: Active</option>
+            <option value="loading">State: Loading</option>
+            <option value="error">State: Feed Error</option>
+          </select>
+        </div>
+      </header>
+
+      <!-- Error Banner (hidden by default) -->
+      <div id="dashboard-error" class="hidden rounded-lg bg-danger-container border border-danger/30 p-4 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-danger text-headline-md" aria-hidden="true">error</span>
+          <div class="flex flex-col">
+            <span data-design-text-token="title-md" class="font-title text-title-md text-on-danger-container">Telemetry stream interrupted</span>
+            <span data-design-text-token="body-sm" class="font-body text-body-sm text-on-danger-container/80">Synthetic scoring pipeline timed out after 3,000ms.</span>
+          </div>
+        </div>
+        <button type="button" id="retry-btn" class="px-3.5 py-2 rounded bg-danger text-on-danger font-label text-label-lg hover:opacity-90 transition-opacity">Retry Stream</button>
+      </div>
+
+      <!-- Loading Skeleton (hidden by default) -->
+      <div id="dashboard-loading" class="hidden grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div class="h-32 rounded-lg bg-surface-container border border-outline-variant p-6 animate-pulse"></div>
+        <div class="h-32 rounded-lg bg-surface-container border border-outline-variant p-6 animate-pulse"></div>
+        <div class="h-32 rounded-lg bg-surface-container border border-outline-variant p-6 animate-pulse"></div>
+        <div class="h-32 rounded-lg bg-surface-container border border-outline-variant p-6 animate-pulse"></div>
+      </div>
+
+      <!-- Active Dashboard Content -->
+      <div id="dashboard-content" class="flex flex-col gap-6">
+        <!-- KPI Row -->
+        <section aria-label="Key fraud metrics" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 items-stretch">
+          <!-- KPI 1 -->
+          <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="h-full bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col justify-between gap-4">
+            <header class="flex items-start justify-between gap-3">
+              <span data-design-text-token="label-lg" class="font-label text-label-lg text-on-surface-variant">Transactions Monitored</span>
+              <span class="material-symbols-outlined text-primary text-headline-md" aria-hidden="true">monitoring</span>
+            </header>
+            <div class="flex items-baseline justify-between gap-2">
+              <p id="kpi-total" data-design-text-token="mono-lg" class="font-mono text-mono-lg text-on-surface tabular-nums">1,482,910</p>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-success tabular-nums">+4.8%</span>
+            </div>
+          </article>
+
+          <!-- KPI 2 -->
+          <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="h-full bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col justify-between gap-4">
+            <header class="flex items-start justify-between gap-3">
+              <span data-design-text-token="label-lg" class="font-label text-label-lg text-on-surface-variant">Fraudulent Detected</span>
+              <span class="material-symbols-outlined text-danger text-headline-md" aria-hidden="true">gpp_maybe</span>
+            </header>
+            <div class="flex items-baseline justify-between gap-2">
+              <p id="kpi-fraud" data-design-text-token="mono-lg" class="font-mono text-mono-lg text-on-surface tabular-nums">2,551</p>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-danger tabular-nums">+1.2%</span>
+            </div>
+          </article>
+
+          <!-- KPI 3 -->
+          <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="h-full bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col justify-between gap-4">
+            <header class="flex items-start justify-between gap-3">
+              <span data-design-text-token="label-lg" class="font-label text-label-lg text-on-surface-variant">Fraud Detection Rate</span>
+              <span class="material-symbols-outlined text-primary text-headline-md" aria-hidden="true">verified_user</span>
+            </header>
+            <div class="flex items-baseline justify-between gap-2">
+              <p id="kpi-rate" data-design-text-token="mono-lg" class="font-mono text-mono-lg text-primary tabular-nums">94.6%</p>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-surface-variant tabular-nums">PR-AUC 0.91</span>
+            </div>
+          </article>
+
+          <!-- KPI 4 -->
+          <article data-component-id="card-elevated" data-component-type="card" data-component-variant="elevated" class="h-full bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col justify-between gap-4">
+            <header class="flex items-start justify-between gap-3">
+              <span data-design-text-token="label-lg" class="font-label text-label-lg text-on-surface-variant">Exposure Prevented</span>
+              <span class="material-symbols-outlined text-warning text-headline-md" aria-hidden="true">account_balance</span>
+            </header>
+            <div class="flex items-baseline justify-between gap-2">
+              <p id="kpi-exposure" data-design-text-token="mono-lg" class="font-mono text-mono-lg text-on-surface tabular-nums">$1,842,390</p>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-surface-variant tabular-nums">Est. USD</span>
+            </div>
+          </article>
+        </section>
+
+        <!-- Charts Row -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <!-- Fraud Trends Over Time (8 cols) -->
+          <article class="lg:col-span-8 bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col gap-5">
+            <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="flex flex-col gap-0.5">
+                <h2 data-design-text-token="headline-md" class="font-body text-headline-md text-on-surface">Fraud Trends Over Time</h2>
+                <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">Flagged anomalies vs. confirmed fraud incidents</p>
+              </div>
+              <div class="flex items-center gap-4">
+                <span class="inline-flex items-center gap-1.5 text-label-sm text-on-surface-variant">
+                  <span class="w-2.5 h-2.5 rounded-full bg-primary"></span> Flagged
+                </span>
+                <span class="inline-flex items-center gap-1.5 text-label-sm text-on-surface-variant">
+                  <span class="w-2.5 h-2.5 rounded-full bg-danger"></span> Confirmed
+                </span>
+              </div>
+            </header>
+
+            <!-- Interactive SVG Line Chart -->
+            <div class="relative w-full h-64 bg-surface-container-low rounded-md border border-outline-variant p-4 flex flex-col justify-between">
+              <svg id="trend-svg" viewBox="0 0 640 200" class="w-full h-full overflow-visible" role="img" aria-label="Fraud trends over time chart">
+                <!-- Grid lines -->
+                <line x1="0" y1="40" x2="640" y2="40" stroke="#2F3130" stroke-dasharray="4 4"></line>
+                <line x1="0" y1="90" x2="640" y2="90" stroke="#2F3130" stroke-dasharray="4 4"></line>
+                <line x1="0" y1="140" x2="640" y2="140" stroke="#2F3130" stroke-dasharray="4 4"></line>
+                <line x1="0" y1="190" x2="640" y2="190" stroke="#2F3130"></line>
+                <!-- Paths updated by JS -->
+                <path id="flagged-area" d fill="#C8F169" fill-opacity="0.08"></path>
+                <path id="flagged-line" d fill="none" stroke="#C8F169" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path id="confirmed-line" d fill="none" stroke="#FF5A5F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <g id="trend-points"></g>
+              </svg>
+              <div id="chart-tooltip" class="hidden absolute top-3 right-3 px-3 py-2 rounded bg-surface-container-high border border-outline text-mono-sm font-mono text-on-surface tabular-nums"></div>
+            </div>
+          </article>
+
+          <!-- Risk Distribution (4 cols) -->
+          <article class="lg:col-span-4 bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col justify-between gap-5">
+            <header class="flex flex-col gap-0.5">
+              <h2 data-design-text-token="headline-md" class="font-body text-headline-md text-on-surface">Risk Distribution</h2>
+              <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">Score stratification (0–100 scale)</p>
+            </header>
+
+            <div class="flex flex-col gap-4">
+              <!-- Low -->
+              <div class="flex flex-col gap-1.5">
+                <div class="flex items-center justify-between">
+                  <span data-design-text-token="label-lg" class="font-label text-label-lg text-on-surface">Low (0–39)</span>
+                  <span data-design-text-token="mono-md" class="font-mono text-mono-md text-success tabular-nums">88.4%</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+                  <div class="h-full bg-success rounded-full" style="width: 88.4%"></div>
+                </div>
+              </div>
+              <!-- Medium -->
+              <div class="flex flex-col gap-1.5">
+                <div class="flex items-center justify-between">
+                  <span data-design-text-token="label-lg" class="font-label text-label-lg text-on-surface">Medium (40–69)</span>
+                  <span data-design-text-token="mono-md" class="font-mono text-mono-md text-warning tabular-nums">7.8%</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+                  <div class="h-full bg-warning rounded-full" style="width: 24%"></div>
+                </div>
+              </div>
+              <!-- High -->
+              <div class="flex flex-col gap-1.5">
+                <div class="flex items-center justify-between">
+                  <span data-design-text-token="label-lg" class="font-label text-label-lg text-on-surface">High (70–84)</span>
+                  <span data-design-text-token="mono-md" class="font-mono text-mono-md text-info tabular-nums">2.6%</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+                  <div class="h-full bg-info rounded-full" style="width: 14%"></div>
+                </div>
+              </div>
+              <!-- Critical -->
+              <div class="flex flex-col gap-1.5">
+                <div class="flex items-center justify-between">
+                  <span data-design-text-token="label-lg" class="font-label text-label-lg text-on-surface">Critical (85–100)</span>
+                  <span data-design-text-token="mono-md" class="font-mono text-mono-md text-danger tabular-nums">1.2%</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+                  <div class="h-full bg-danger rounded-full" style="width: 8%"></div>
+                </div>
+              </div>
+            </div>
+
+            <footer class="pt-4 border-t border-outline-variant flex items-center justify-between">
+              <span data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">Threshold: 0.62</span>
+              <a href="../model-intelligence/ModelIntelligence.html" class="font-label text-label-lg text-primary hover:underline">Adjust Model</a>
+            </footer>
+          </article>
+        </section>
+
+        <!-- Recent Suspicious Transactions -->
+        <section class="bg-surface-container border border-outline-variant rounded-lg overflow-hidden">
+          <header class="p-6 border-b border-outline-variant flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex flex-col gap-0.5">
+              <h2 data-design-text-token="headline-md" class="font-body text-headline-md text-on-surface">Recent Suspicious Transactions</h2>
+              <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">Highest-scoring synthetic alerts requiring analyst triage</p>
+            </div>
+            <a href="../transaction-intelligence/TransactionIntelligence.html" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded bg-surface-container-high border border-outline-variant font-label text-label-lg text-on-surface hover:border-outline transition-colors duration-state-change w-fit">
+              <span data-design-text-token="label-lg">View All Transactions</span>
+              <span class="material-symbols-outlined text-title-md text-primary" aria-hidden="true">arrow_forward</span>
+            </a>
+          </header>
+
+          <div class="w-full overflow-x-auto">
+            <div data-component-id="table-standard" data-component-type="table" data-component-variant="standard" class="w-full">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-outline-variant bg-surface-container-low">
+                    <th scope="col" class="py-3 px-6 font-label text-label-sm text-on-surface-variant uppercase">Transaction ID</th>
+                    <th scope="col" class="py-3 px-6 font-label text-label-sm text-on-surface-variant uppercase">Merchant</th>
+                    <th scope="col" class="py-3 px-6 font-label text-label-sm text-on-surface-variant uppercase">Timestamp</th>
+                    <th scope="col" class="py-3 px-6 font-label text-label-sm text-on-surface-variant uppercase text-right">Amount</th>
+                    <th scope="col" class="py-3 px-6 font-label text-label-sm text-on-surface-variant uppercase text-right">Risk Score</th>
+                    <th scope="col" class="py-3 px-6 font-label text-label-sm text-on-surface-variant uppercase">Classification</th>
+                    <th scope="col" class="py-3 px-6 font-label text-label-sm text-on-surface-variant uppercase text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-outline-variant">
+                  <tr class="hover:bg-surface-container-high transition-colors duration-state-change">
+                    <td class="py-3.5 px-6 font-mono text-mono-md text-on-surface tabular-nums">TXN-98412-AF</td>
+                    <td class="py-3.5 px-6 font-body text-body-md text-on-surface">Nordic Electronics GmbH</td>
+                    <td class="py-3.5 px-6 font-mono text-mono-sm text-on-surface-variant tabular-nums">2026-11-25 06:41 UTC</td>
+                    <td class="py-3.5 px-6 font-mono text-mono-md text-on-surface tabular-nums text-right">$4,890.00</td>
+                    <td class="py-3.5 px-6 font-mono text-mono-md text-danger tabular-nums text-right">94 / 100</td>
+                    <td class="py-3.5 px-6">
+                      <span data-component-id="badge-error" data-component-type="badge" data-component-variant="error" role="status" class="inline-flex items-center px-2.5 py-1 rounded-full bg-danger-container text-on-danger-container font-label text-label-sm">Critical</span>
+                    </td>
+                    <td class="py-3.5 px-6 text-right">
+                      <a href="../ai-investigation/AIInvestigationWorkspace.html" class="font-label text-label-lg text-primary hover:underline">Investigate</a>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-surface-container-high transition-colors duration-state-change">
+                    <td class="py-3.5 px-6 font-mono text-mono-md text-on-surface tabular-nums">TXN-98409-KL</td>
+                    <td class="py-3.5 px-6 font-body text-body-md text-on-surface">Vortex Digital Cloud</td>
+                    <td class="py-3.5 px-6 font-mono text-mono-sm text-on-surface-variant tabular-nums">2026-11-25 06:28 UTC</td>
+                    <td class="py-3.5 px-6 font-mono text-mono-md text-on-surface tabular-nums text-right">$2,340.00</td>
+                    <td class="py-3.5 px-6 font-mono text-mono-md text-danger tabular-nums text-right">88 / 100</td>
+                    <td class="py-3.5 px-6">
+                      <span data-component-id="badge-error" data-component-type="badge" data-component-variant="error" role="status" class="inline-flex items-center px-2.5 py-1 rounded-full bg-danger-container text-on-danger-container font-label text-label-sm">Critical</span>
+                    </td>
+                    <td class="py-3.5 px-6 text-right">
+                      <a href="../ai-investigation/AIInvestigationWorkspace.html" class="font-label text-label-lg text-primary hover:underline">Investigate</a>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-surface-container-high transition-colors duration-state-change">
+                    <td class="py-3.5 px-6 font-mono text-mono-md text-on-surface tabular-nums">TXN-98395-MP</td>
+                    <td class="py-3.5 px-6 font-body text-body-md text-on-surface">Apex Luxury Watches</td>
+                    <td class="py-3.5 px-6 font-mono text-mono-sm text-on-surface-variant tabular-nums">2026-11-25 05:54 UTC</td>
+                    <td class="py-3.5 px-6 font-mono text-mono-md text-on-surface tabular-nums text-right">$7,120.00</td>
+                    <td class="py-3.5 px-6 font-mono text-mono-md text-warning tabular-nums text-right">79 / 100</td>
+                    <td class="py-3.5 px-6">
+                      <span data-component-id="badge-warning" data-component-type="badge" data-component-variant="warning" role="status" class="inline-flex items-center px-2.5 py-1 rounded-full bg-warning-container text-on-warning-container font-label text-label-sm">High</span>
+                    </td>
+                    <td class="py-3.5 px-6 text-right">
+                      <a href="../ai-investigation/AIInvestigationWorkspace.html" class="font-label text-label-lg text-primary hover:underline">Investigate</a>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-surface-container-high transition-colors duration-state-change">
+                    <td class="py-3.5 px-6 font-mono text-mono-md text-on-surface tabular-nums">TXN-98364-ZT</td>
+                    <td class="py-3.5 px-6 font-body text-body-md text-on-surface">BlueWave Cloud Services</td>
+                    <td class="py-3.5 px-6 font-mono text-mono-sm text-on-surface-variant tabular-nums">2026-11-25 04:47 UTC</td>
+                    <td class="py-3.5 px-6 font-mono text-mono-md text-on-surface tabular-nums text-right">$1,290.00</td>
+                    <td class="py-3.5 px-6 font-mono text-mono-md text-danger tabular-nums text-right">86 / 100</td>
+                    <td class="py-3.5 px-6">
+                      <span data-component-id="badge-error" data-component-type="badge" data-component-variant="error" role="status" class="inline-flex items-center px-2.5 py-1 rounded-full bg-danger-container text-on-danger-container font-label text-label-sm">Critical</span>
+                    </td>
+                    <td class="py-3.5 px-6 text-right">
+                      <a href="../ai-investigation/AIInvestigationWorkspace.html" class="font-label text-label-lg text-primary hover:underline">Investigate</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const sidebar = document.getElementById('app-sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      const openBtn = document.getElementById('mobile-menu-btn');
+      const closeBtn = document.getElementById('mobile-close-btn');
+
+      function toggleSidebar(open) {
+        if (open) {
+          sidebar.classList.remove('-translate-x-full');
+          backdrop.classList.remove('hidden');
+        } else {
+          sidebar.classList.add('-translate-x-full');
+          backdrop.classList.add('hidden');
+        }
+      }
+      if (openBtn) openBtn.addEventListener('click', () => toggleSidebar(true));
+      if (closeBtn) closeBtn.addEventListener('click', () => toggleSidebar(false));
+      if (backdrop) backdrop.addEventListener('click', () => toggleSidebar(false));
+
+      // Time range data
+      const datasets = {
+        '7d': {
+          total: '348,120', fraud: '612', rate: '95.1%', exposure: '$418,900',
+          flagged: [62, 74, 68, 92, 85, 108, 96],
+          confirmed: [28, 34, 31, 46, 42, 54, 49],
+          labels: ['Nov 19', 'Nov 20', 'Nov 21', 'Nov 22', 'Nov 23', 'Nov 24', 'Nov 25']
+        },
+        '30d': {
+          total: '1,482,910', fraud: '2,551', rate: '94.6%', exposure: '$1,842,390',
+          flagged: [58, 72, 65, 88, 95, 82, 110, 104, 122],
+          confirmed: [24, 32, 29, 41, 45, 38, 56, 51, 61],
+          labels: ['Oct 27', 'Oct 31', 'Nov 04', 'Nov 08', 'Nov 12', 'Nov 16', 'Nov 20', 'Nov 22', 'Nov 25']
+        },
+        '90d': {
+          total: '4,310,480', fraud: '7,420', rate: '93.8%', exposure: '$5,190,440',
+          flagged: [48, 55, 68, 61, 79, 86, 94, 102, 118],
+          confirmed: [20, 24, 31, 27, 36, 40, 44, 49, 58],
+          labels: ['Aug 28', 'Sep 08', 'Sep 19', 'Sep 30', 'Oct 11', 'Oct 22', 'Nov 02', 'Nov 13', 'Nov 25']
+        }
+      };
+
+      function renderChart(key) {
+        const d = datasets[key];
+        document.getElementById('kpi-total').textContent = d.total;
+        document.getElementById('kpi-fraud').textContent = d.fraud;
+        document.getElementById('kpi-rate').textContent = d.rate;
+        document.getElementById('kpi-exposure').textContent = d.exposure;
+
+        const w = 640, h = 190, pad = 20;
+        const maxVal = 140;
+        const stepX = (w - pad * 2) / (d.flagged.length - 1);
+
+        const fPts = d.flagged.map((v, i) => [pad + i * stepX, h - (v / maxVal) * (h - 20)]);
+        const cPts = d.confirmed.map((v, i) => [pad + i * stepX, h - (v / maxVal) * (h - 20)]);
+
+        const toPath = (pts) => pts.map((p, i) => (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+        const fPath = toPath(fPts);
+        document.getElementById('flagged-line').setAttribute('d', fPath);
+        document.getElementById('flagged-area').setAttribute('d', fPath + ` L${fPts[fPts.length - 1][0]},${h} L${fPts[0][0]},${h} Z`);
+        document.getElementById('confirmed-line').setAttribute('d', toPath(cPts));
+
+        const ptsGroup = document.getElementById('trend-points');
+        const tooltip = document.getElementById('chart-tooltip');
+        ptsGroup.innerHTML = '';
+        fPts.forEach((p, idx) => {
+          const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          c.setAttribute('cx', p[0]);
+          c.setAttribute('cy', p[1]);
+          c.setAttribute('r', '5');
+          c.setAttribute('fill', '#101211');
+          c.setAttribute('stroke', '#C8F169');
+          c.setAttribute('stroke-width', '2');
+          c.classList.add('cursor-pointer');
+          c.addEventListener('mouseenter', () => {
+            tooltip.textContent = `${d.labels[idx]} • Flagged: ${d.flagged[idx]} | Confirmed: ${d.confirmed[idx]}`;
+            tooltip.classList.remove('hidden');
+          });
+          c.addEventListener('mouseleave', () => tooltip.classList.add('hidden'));
+          ptsGroup.appendChild(c);
+        });
+      }
+
+      document.querySelectorAll('.range-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.range-btn').forEach(b => {
+            b.classList.remove('bg-primary', 'text-on-primary');
+            b.classList.add('text-on-surface-variant');
+          });
+          btn.classList.add('bg-primary', 'text-on-primary');
+          btn.classList.remove('text-on-surface-variant');
+          renderChart(btn.dataset.range);
+        });
+      });
+
+      const stateSelect = document.getElementById('view-state-select');
+      const contentEl = document.getElementById('dashboard-content');
+      const loadingEl = document.getElementById('dashboard-loading');
+      const errorEl = document.getElementById('dashboard-error');
+
+      function applyState(state) {
+        contentEl.classList.toggle('hidden', state !== 'ready');
+        loadingEl.classList.toggle('hidden', state !== 'loading');
+        errorEl.classList.toggle('hidden', state !== 'error');
+      }
+
+      stateSelect.addEventListener('change', (e) => applyState(e.target.value));
+      document.getElementById('retry-btn').addEventListener('click', () => {
+        stateSelect.value = 'ready';
+        applyState('ready');
+      });
+
+      renderChart('30d');
+    })();
+  </script>
+
+
+</body></html>

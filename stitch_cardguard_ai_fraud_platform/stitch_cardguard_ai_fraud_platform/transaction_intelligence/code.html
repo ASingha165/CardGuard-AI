@@ -1,0 +1,398 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction Intelligence — CardGuard AI</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'primary': '#C8F169',
+        'on-primary': '#151F00',
+        'primary-container': '#263500',
+        'on-primary-container': '#D8FF7E',
+        'surface': '#101211',
+        'surface-container-lowest': '#0A0C0B',
+        'surface-container-low': '#151816',
+        'surface-container': '#1A1C1B',
+        'surface-container-high': '#222523',
+        'surface-container-highest': '#2F3130',
+        'on-surface': '#F1F1EE',
+        'on-surface-variant': '#90918F',
+        'outline': '#454746',
+        'outline-variant': '#2F3130',
+        'success': '#3FB950',
+        'on-success': '#002105',
+        'success-container': '#00390D',
+        'on-success-container': '#83FC89',
+        'warning': '#F5B041',
+        'on-warning': '#291800',
+        'warning-container': '#442B00',
+        'on-warning-container': '#FFDDB2',
+        'danger': '#FF5A5F',
+        'on-danger': '#410007',
+        'danger-container': '#680010',
+        'on-danger-container': '#FFDAD8',
+        'info': '#58A6FF',
+        'on-info': '#001C38',
+        'info-container': '#00315C',
+        'on-info-container': '#D3E4FF',
+        'error': '#FF5A5F',
+        'on-error': '#410007',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '10px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '16px',
+        'gutter-lg': '24px',
+        'gutter-xl': '32px',
+        'section': '40px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Alatsi"', 'sans-serif'],
+        'headline': ['"Alatsi"', 'sans-serif'],
+        'title': ['"Instrument Sans"', 'sans-serif'],
+        'body': ['"Instrument Sans"', 'sans-serif'],
+        'label': ['"Instrument Sans"', 'sans-serif'],
+        'mono': ['"Red Hat Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '44px', letterSpacing: '-0.75px', fontWeight: '400' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.5px', fontWeight: '400' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '400' }],
+        'headline-md': ['20px', { lineHeight: '26px', letterSpacing: '-0.2px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['13px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '500' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.4px', fontWeight: '500' }],
+        'mono-lg': ['24px', { lineHeight: '30px', letterSpacing: '-0.5px', fontWeight: '600' }],
+        'mono-md': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '500' }],
+        'mono-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.2px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.4, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Alatsi&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=Red+Hat+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary selection:text-on-primary">
+
+  <div class="min-h-[1024px] flex flex-col lg:flex-row" data-stitch-vh="min-h-[1024px]===min-h-screen">
+    <!-- Mobile Top Bar -->
+    <header class="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-surface-container-low border-b border-outline-variant">
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-primary-container text-primary">
+          <span class="material-symbols-outlined text-title-md">shield_lock</span>
+        </span>
+        <span data-design-text-token="title-md" class="font-title text-title-md text-on-surface">CardGuard AI</span>
+      </div>
+      <button type="button" id="mobile-menu-btn" aria-label="Open navigation" class="inline-flex items-center justify-center w-9 h-9 rounded bg-surface-container-high border border-outline-variant text-on-surface">
+        <span class="material-symbols-outlined text-title-md">menu</span>
+      </button>
+    </header>
+
+    <div id="sidebar-backdrop" class="hidden fixed inset-0 z-40 bg-surface-container-lowest/80 lg:hidden"></div>
+
+    <!-- Shared Sidebar Navigation -->
+    <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full lg:translate-x-0 lg:sticky lg:top-0 min-h-[1024px] bg-surface-container-low border-r border-outline-variant flex flex-col justify-between p-4 transition-transform duration-surface-enter ease-surface-enter" data-stitch-vh="min-h-[1024px]===min-h-screen">
+      <div class="flex flex-col gap-6">
+        <div class="flex items-center justify-between px-2 pt-1">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-md bg-primary-container text-primary border border-primary/25">
+              <span class="material-symbols-outlined text-headline-md">shield_lock</span>
+            </span>
+            <div class="flex flex-col">
+              <span data-design-text-token="title-md" class="font-title text-title-md text-on-surface">CardGuard AI</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-surface-variant">v4.2 • Fraud Intel</span>
+            </div>
+          </div>
+          <button type="button" id="mobile-close-btn" aria-label="Close navigation" class="lg:hidden inline-flex items-center justify-center w-8 h-8 rounded text-on-surface-variant hover:text-on-surface">
+            <span class="material-symbols-outlined text-title-md">close</span>
+          </button>
+        </div>
+
+        <nav aria-label="Primary" class="flex flex-col gap-1">
+          <a href="../executive-dashboard/ExecutiveDashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">monitoring</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Executive Dashboard</span>
+          </a>
+          <a href="../transaction-intelligence/TransactionIntelligence.html" aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded bg-primary-container text-on-primary-container border border-primary/25 transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md text-primary" aria-hidden="true">receipt_long</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Transaction Intel</span>
+          </a>
+          <a href="../ai-investigation/AIInvestigationWorkspace.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">psychology</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">AI Investigation</span>
+          </a>
+          <a href="../fraud-network/FraudNetworkExplorer.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">hub</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Fraud Network</span>
+          </a>
+          <a href="../model-intelligence/ModelIntelligence.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">model_training</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Model Intelligence</span>
+          </a>
+          <a href="../dataset-laboratory/DatasetLaboratory.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">science</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Dataset Laboratory</span>
+          </a>
+          <a href="../reports-history/ReportsHistory.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">description</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Reports &amp; History</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="pt-4 border-t border-outline-variant flex flex-col gap-2 px-2">
+        <span data-component-id="badge-status" data-component-type="badge" data-component-variant="status" role="status" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container border border-primary/25 w-fit">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+          <span data-design-text-token="label-sm" class="font-label text-label-sm">Synthetic Demo Data</span>
+        </span>
+        <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">
+          CardGuard-Synthetic-v4.2 • Non-production telemetry
+        </p>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 max-w-[1440px] mx-auto w-full flex flex-col gap-6">
+      <header class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <h1 data-design-text-token="display-lg" class="font-headline text-display-lg-mobile lg:text-display-lg text-on-surface text-balance">Transaction Intelligence</h1>
+          <p data-design-text-token="body-md" class="font-body text-body-md text-on-surface-variant text-pretty">
+            Search, stratify, and expand individual synthetic transactions for forensic inspection.
+          </p>
+        </div>
+        <span id="txn-count-label" data-design-text-token="mono-md" class="font-mono text-mono-md text-on-surface-variant tabular-nums">Showing 6 of 6 alerts</span>
+      </header>
+
+      <!-- Search & Filter Bar -->
+      <section class="bg-surface-container border border-outline-variant rounded-lg p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div class="relative flex-1 max-w-md">
+          <span aria-hidden="true" class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-title-md pointer-events-none">search</span>
+          <input id="txn-search" type="search" placeholder="Search TXN ID, merchant, or device..." class="w-full rounded bg-surface-container-low border border-outline-variant pl-10 pr-3.5 py-2 text-body-md text-on-surface placeholder:text-on-surface-variant focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none">
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2" role="group" aria-label="Risk classification filter">
+          <button type="button" data-filter="All" class="filter-pill px-3 py-1.5 rounded-full font-label text-label-lg bg-primary text-on-primary transition-colors duration-state-change">All</button>
+          <button type="button" data-filter="Critical" class="filter-pill px-3 py-1.5 rounded-full font-label text-label-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface border border-outline-variant transition-colors duration-state-change">Critical</button>
+          <button type="button" data-filter="High" class="filter-pill px-3 py-1.5 rounded-full font-label text-label-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface border border-outline-variant transition-colors duration-state-change">High</button>
+          <button type="button" data-filter="Medium" class="filter-pill px-3 py-1.5 rounded-full font-label text-label-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface border border-outline-variant transition-colors duration-state-change">Medium</button>
+          <button type="button" data-filter="Low" class="filter-pill px-3 py-1.5 rounded-full font-label text-label-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface border border-outline-variant transition-colors duration-state-change">Low</button>
+        </div>
+      </section>
+
+      <!-- Transactions Table -->
+      <section class="bg-surface-container border border-outline-variant rounded-lg overflow-hidden">
+        <div class="w-full overflow-x-auto">
+          <div data-component-id="table-standard" data-component-type="table" data-component-variant="standard" class="w-full">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-outline-variant bg-surface-container-low">
+                  <th scope="col" class="py-3 px-5 font-label text-label-sm text-on-surface-variant uppercase">Transaction ID</th>
+                  <th scope="col" class="py-3 px-5 font-label text-label-sm text-on-surface-variant uppercase">Merchant</th>
+                  <th scope="col" class="py-3 px-5 font-label text-label-sm text-on-surface-variant uppercase">Timestamp</th>
+                  <th scope="col" class="py-3 px-5 font-label text-label-sm text-on-surface-variant uppercase text-right">Amount</th>
+                  <th scope="col" class="py-3 px-5 font-label text-label-sm text-on-surface-variant uppercase text-right">Risk Score</th>
+                  <th scope="col" class="py-3 px-5 font-label text-label-sm text-on-surface-variant uppercase">Classification</th>
+                  <th scope="col" class="py-3 px-5 font-label text-label-sm text-on-surface-variant uppercase text-right">Details</th>
+                </tr>
+              </thead>
+              <tbody id="txn-tbody" class="divide-y divide-outline-variant"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="txn-empty" class="hidden p-12 flex flex-col items-center justify-center text-center gap-3">
+          <span class="material-symbols-outlined text-display-lg text-on-surface-variant" aria-hidden="true">search_off</span>
+          <h2 data-design-text-token="title-md" class="font-title text-title-md text-on-surface">No matching transactions</h2>
+          <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant max-w-sm">
+            Try clearing your search query or switching the risk classification filter back to All.
+          </p>
+          <button type="button" id="reset-filters-btn" class="mt-2 px-4 py-2 rounded bg-surface-container-high border border-outline-variant font-label text-label-lg text-on-surface hover:border-outline">Reset Filters</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const sidebar = document.getElementById('app-sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      const openBtn = document.getElementById('mobile-menu-btn');
+      const closeBtn = document.getElementById('mobile-close-btn');
+      function toggleSidebar(open) {
+        sidebar.classList.toggle('-translate-x-full', !open);
+        backdrop.classList.toggle('hidden', !open);
+      }
+      if (openBtn) openBtn.addEventListener('click', () => toggleSidebar(true));
+      if (closeBtn) closeBtn.addEventListener('click', () => toggleSidebar(false));
+      if (backdrop) backdrop.addEventListener('click', () => toggleSidebar(false));
+
+      const transactions = [
+        { id: 'TXN-98412-AF', merchant: 'Nordic Electronics GmbH', time: '2026-11-25 06:41 UTC', amount: '$4,890.00', score: 94, level: 'Critical', device: 'DEV-8841-X', geo: 'Berlin, DE (IP mismatch)', card: 'CARD-4491', note: '4.2x above 90-day baseline; new browser fingerprint.' },
+        { id: 'TXN-98409-KL', merchant: 'Vortex Digital Cloud', time: '2026-11-25 06:28 UTC', amount: '$2,340.00', score: 88, level: 'Critical', device: 'DEV-8841-X', geo: 'Frankfurt, DE', card: 'CARD-7720', note: 'Shared device hash DEV-8841-X with 3 distinct cards in 18 mins.' },
+        { id: 'TXN-98395-MP', merchant: 'Apex Luxury Watches', time: '2026-11-25 05:54 UTC', amount: '$7,120.00', score: 79, level: 'High', device: 'DEV-3019-M', geo: 'London, UK', card: 'CARD-2104', note: 'High-ticket MCC deviation; CVV verified.' },
+        { id: 'TXN-98364-ZT', merchant: 'BlueWave Cloud Services', time: '2026-11-25 04:47 UTC', amount: '$1,290.00', score: 86, level: 'Critical', device: 'DEV-8841-X', geo: 'Amsterdam, NL', card: 'CARD-1093', note: 'Velocity spike across cloud-compute merchants.' },
+        { id: 'TXN-98381-QR', merchant: 'Metro Rail Transit', time: '2026-11-25 05:19 UTC', amount: '$184.50', score: 52, level: 'Medium', device: 'DEV-1102-A', geo: 'Chicago, US', card: 'CARD-8832', note: 'Unusual hour for transit pass top-up; cardholder location consistent.' },
+        { id: 'TXN-98340-BN', merchant: 'FreshMart Groceries', time: '2026-11-25 04:12 UTC', amount: '$92.40', score: 14, level: 'Low', device: 'DEV-5520-K', geo: 'Austin, US', card: 'CARD-5520', note: 'Matches recurring weekly grocery pattern.' }
+      ];
+
+      let activeFilter = 'All';
+      let searchQuery = '';
+      let expandedId = 'TXN-98412-AF';
+
+      function badgeClass(level) {
+        if (level === 'Critical') return 'bg-danger-container text-on-danger-container';
+        if (level === 'High') return 'bg-warning-container text-on-warning-container';
+        if (level === 'Medium') return 'bg-info-container text-on-info-container';
+        return 'bg-success-container text-on-success-container';
+      }
+
+      function scoreColor(level) {
+        if (level === 'Critical') return 'text-danger';
+        if (level === 'High') return 'text-warning';
+        if (level === 'Medium') return 'text-info';
+        return 'text-success';
+      }
+
+      function render() {
+        const tbody = document.getElementById('txn-tbody');
+        const empty = document.getElementById('txn-empty');
+        const countLabel = document.getElementById('txn-count-label');
+
+        const filtered = transactions.filter(t => {
+          const matchLevel = activeFilter === 'All' || t.level === activeFilter;
+          const q = searchQuery.trim().toLowerCase();
+          const matchSearch = !q || t.id.toLowerCase().includes(q) || t.merchant.toLowerCase().includes(q) || t.device.toLowerCase().includes(q);
+          return matchLevel && matchSearch;
+        });
+
+        countLabel.textContent = `Showing ${filtered.length} of ${transactions.length} alerts`;
+        tbody.innerHTML = '';
+
+        if (filtered.length === 0) {
+          empty.classList.remove('hidden');
+          return;
+        }
+        empty.classList.add('hidden');
+
+        filtered.forEach(t => {
+          const isOpen = expandedId === t.id;
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-surface-container-high transition-colors duration-state-change cursor-pointer';
+          tr.innerHTML = `
+            <td class="py-3.5 px-5 font-mono text-mono-md text-on-surface tabular-nums">${t.id}</td>
+            <td class="py-3.5 px-5 font-body text-body-md text-on-surface">${t.merchant}</td>
+            <td class="py-3.5 px-5 font-mono text-mono-sm text-on-surface-variant tabular-nums">${t.time}</td>
+            <td class="py-3.5 px-5 font-mono text-mono-md text-on-surface tabular-nums text-right">${t.amount}</td>
+            <td class="py-3.5 px-5 font-mono text-mono-md ${scoreColor(t.level)} tabular-nums text-right">${t.score} / 100</td>
+            <td class="py-3.5 px-5"><span class="inline-flex items-center px-2.5 py-1 rounded-full font-label text-label-sm ${badgeClass(t.level)}">${t.level}</span></td>
+            <td class="py-3.5 px-5 text-right">
+              <button type="button" class="inline-flex items-center gap-1 font-label text-label-lg text-primary">
+                <span>${isOpen ? 'Hide' : 'Inspect'}</span>
+                <span class="material-symbols-outlined text-title-md">${isOpen ? 'expand_less' : 'expand_more'}</span>
+              </button>
+            </td>
+          `;
+          tr.addEventListener('click', () => {
+            expandedId = isOpen ? null : t.id;
+            render();
+          });
+          tbody.appendChild(tr);
+
+          if (isOpen) {
+            const detailTr = document.createElement('tr');
+            detailTr.className = 'bg-surface-container-low';
+            detailTr.innerHTML = `
+              <td colspan="7" class="p-5">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 flex-1">
+                    <div class="flex flex-col gap-0.5">
+                      <span class="font-label text-label-sm text-on-surface-variant uppercase">Device Fingerprint</span>
+                      <span class="font-mono text-mono-md text-on-surface">${t.device}</span>
+                    </div>
+                    <div class="flex flex-col gap-0.5">
+                      <span class="font-label text-label-sm text-on-surface-variant uppercase">Geolocation &amp; Card</span>
+                      <span class="font-body text-body-sm text-on-surface">${t.geo} • ${t.card}</span>
+                    </div>
+                    <div class="flex flex-col gap-0.5">
+                      <span class="font-label text-label-sm text-on-surface-variant uppercase">Primary Signal</span>
+                      <span class="font-body text-body-sm text-on-surface-variant">${t.note}</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <a href="../fraud-network/FraudNetworkExplorer.html" class="px-3.5 py-2 rounded bg-surface-container-high border border-outline-variant font-label text-label-lg text-on-surface hover:border-outline">View Graph</a>
+                    <a href="../ai-investigation/AIInvestigationWorkspace.html" class="px-3.5 py-2 rounded bg-primary text-on-primary font-label text-label-lg hover:bg-on-primary-container">Open AI Workspace</a>
+                  </div>
+                </div>
+              </td>
+            `;
+            tbody.appendChild(detailTr);
+          }
+        });
+      }
+
+      document.getElementById('txn-search').addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        render();
+      });
+
+      document.querySelectorAll('.filter-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          activeFilter = pill.dataset.filter;
+          document.querySelectorAll('.filter-pill').forEach(p => {
+            p.classList.remove('bg-primary', 'text-on-primary');
+            p.classList.add('bg-surface-container-high', 'text-on-surface-variant', 'border', 'border-outline-variant');
+          });
+          pill.classList.add('bg-primary', 'text-on-primary');
+          pill.classList.remove('bg-surface-container-high', 'text-on-surface-variant', 'border', 'border-outline-variant');
+          render();
+        });
+      });
+
+      document.getElementById('reset-filters-btn').addEventListener('click', () => {
+        activeFilter = 'All';
+        searchQuery = '';
+        document.getElementById('txn-search').value = '';
+        document.querySelector('[data-filter="All"]').click();
+      });
+
+      render();
+    })();
+  </script>
+
+
+</body></html>

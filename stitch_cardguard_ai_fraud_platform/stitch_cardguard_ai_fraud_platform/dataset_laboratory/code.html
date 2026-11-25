@@ -1,0 +1,362 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dataset Laboratory — CardGuard AI</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'primary': '#C8F169',
+        'on-primary': '#151F00',
+        'primary-container': '#263500',
+        'on-primary-container': '#D8FF7E',
+        'surface': '#101211',
+        'surface-container-lowest': '#0A0C0B',
+        'surface-container-low': '#151816',
+        'surface-container': '#1A1C1B',
+        'surface-container-high': '#222523',
+        'surface-container-highest': '#2F3130',
+        'on-surface': '#F1F1EE',
+        'on-surface-variant': '#90918F',
+        'outline': '#454746',
+        'outline-variant': '#2F3130',
+        'success': '#3FB950',
+        'on-success': '#002105',
+        'success-container': '#00390D',
+        'on-success-container': '#83FC89',
+        'warning': '#F5B041',
+        'on-warning': '#291800',
+        'warning-container': '#442B00',
+        'on-warning-container': '#FFDDB2',
+        'danger': '#FF5A5F',
+        'on-danger': '#410007',
+        'danger-container': '#680010',
+        'on-danger-container': '#FFDAD8',
+        'info': '#58A6FF',
+        'on-info': '#001C38',
+        'info-container': '#00315C',
+        'on-info-container': '#D3E4FF',
+        'error': '#FF5A5F',
+        'on-error': '#410007',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '10px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '16px',
+        'gutter-lg': '24px',
+        'gutter-xl': '32px',
+        'section': '40px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Alatsi"', 'sans-serif'],
+        'headline': ['"Alatsi"', 'sans-serif'],
+        'title': ['"Instrument Sans"', 'sans-serif'],
+        'body': ['"Instrument Sans"', 'sans-serif'],
+        'label': ['"Instrument Sans"', 'sans-serif'],
+        'mono': ['"Red Hat Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '44px', letterSpacing: '-0.75px', fontWeight: '400' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.5px', fontWeight: '400' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '400' }],
+        'headline-md': ['20px', { lineHeight: '26px', letterSpacing: '-0.2px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['13px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '500' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.4px', fontWeight: '500' }],
+        'mono-lg': ['24px', { lineHeight: '30px', letterSpacing: '-0.5px', fontWeight: '600' }],
+        'mono-md': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '500' }],
+        'mono-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.2px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.4, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Alatsi&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=Red+Hat+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary selection:text-on-primary">
+
+  <div class="min-h-[1024px] flex flex-col lg:flex-row" data-stitch-vh="min-h-[1024px]===min-h-screen">
+    <!-- Mobile Top Bar -->
+    <header class="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-surface-container-low border-b border-outline-variant">
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-primary-container text-primary">
+          <span class="material-symbols-outlined text-title-md">shield_lock</span>
+        </span>
+        <span data-design-text-token="title-md" class="font-title text-title-md text-on-surface">CardGuard AI</span>
+      </div>
+      <button type="button" id="mobile-menu-btn" aria-label="Open navigation" class="inline-flex items-center justify-center w-9 h-9 rounded bg-surface-container-high border border-outline-variant text-on-surface">
+        <span class="material-symbols-outlined text-title-md">menu</span>
+      </button>
+    </header>
+
+    <div id="sidebar-backdrop" class="hidden fixed inset-0 z-40 bg-surface-container-lowest/80 lg:hidden"></div>
+
+    <!-- Shared Sidebar Navigation -->
+    <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full lg:translate-x-0 lg:sticky lg:top-0 min-h-[1024px] bg-surface-container-low border-r border-outline-variant flex flex-col justify-between p-4 transition-transform duration-surface-enter ease-surface-enter" data-stitch-vh="min-h-[1024px]===min-h-screen">
+      <div class="flex flex-col gap-6">
+        <div class="flex items-center justify-between px-2 pt-1">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-md bg-primary-container text-primary border border-primary/25">
+              <span class="material-symbols-outlined text-headline-md">shield_lock</span>
+            </span>
+            <div class="flex flex-col">
+              <span data-design-text-token="title-md" class="font-title text-title-md text-on-surface">CardGuard AI</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-surface-variant">v4.2 • Fraud Intel</span>
+            </div>
+          </div>
+          <button type="button" id="mobile-close-btn" aria-label="Close navigation" class="lg:hidden inline-flex items-center justify-center w-8 h-8 rounded text-on-surface-variant hover:text-on-surface">
+            <span class="material-symbols-outlined text-title-md">close</span>
+          </button>
+        </div>
+
+        <nav aria-label="Primary" class="flex flex-col gap-1">
+          <a href="../executive-dashboard/ExecutiveDashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">monitoring</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Executive Dashboard</span>
+          </a>
+          <a href="../transaction-intelligence/TransactionIntelligence.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">receipt_long</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Transaction Intel</span>
+          </a>
+          <a href="../ai-investigation/AIInvestigationWorkspace.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">psychology</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">AI Investigation</span>
+          </a>
+          <a href="../fraud-network/FraudNetworkExplorer.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">hub</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Fraud Network</span>
+          </a>
+          <a href="../model-intelligence/ModelIntelligence.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">model_training</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Model Intelligence</span>
+          </a>
+          <a href="../dataset-laboratory/DatasetLaboratory.html" aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded bg-primary-container text-on-primary-container border border-primary/25 transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md text-primary" aria-hidden="true">science</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Dataset Laboratory</span>
+          </a>
+          <a href="../reports-history/ReportsHistory.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">description</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Reports &amp; History</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="pt-4 border-t border-outline-variant flex flex-col gap-2 px-2">
+        <span data-component-id="badge-status" data-component-type="badge" data-component-variant="status" role="status" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container border border-primary/25 w-fit">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+          <span data-design-text-token="label-sm" class="font-label text-label-sm">Synthetic Demo Data</span>
+        </span>
+        <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">
+          CardGuard-Synthetic-v4.2 • Non-production telemetry
+        </p>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 max-w-[1440px] mx-auto w-full flex flex-col gap-6">
+      <header class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <h1 data-design-text-token="display-lg" class="font-headline text-display-lg-mobile lg:text-display-lg text-on-surface text-balance">Dataset Laboratory</h1>
+          <p data-design-text-token="body-md" class="font-body text-body-md text-on-surface-variant text-pretty">
+            Upload CSV corpora, inspect missing-value profiles, select features, and train evaluation runs.
+          </p>
+        </div>
+
+        <span id="dataset-provenance" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-container text-on-primary-container border border-primary/25 font-label text-label-sm w-fit">
+          Source: Synthetic Demo Dataset
+        </span>
+      </header>
+
+      <!-- CSV Upload + Feature Selection -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <!-- CSV Upload Dropzone (7 cols) -->
+        <article class="lg:col-span-7 bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col justify-between gap-4">
+          <header class="flex items-center justify-between">
+            <h2 class="font-body text-headline-md text-on-surface">Corpus Ingestion</h2>
+            <span class="font-mono text-mono-sm text-on-surface-variant">Max 250 MB • UTF-8 CSV</span>
+          </header>
+
+          <label for="csv-input" class="border border-dashed border-outline rounded-lg bg-surface-container-low p-8 flex flex-col items-center justify-center text-center gap-3 cursor-pointer hover:border-primary transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-display-lg text-primary" aria-hidden="true">upload_file</span>
+            <span class="font-title text-title-md text-on-surface">Drop transaction CSV here or click to browse</span>
+            <span class="font-body text-body-sm text-on-surface-variant">Uploaded files are processed locally in-session and tagged as Uploaded Dataset.</span>
+            <input id="csv-input" type="file" accept=".csv" class="hidden">
+          </label>
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <span id="upload-status" class="font-mono text-mono-sm text-on-surface-variant">Active: cardguard_synthetic_v42.csv (1,482,910 rows)</span>
+            <button type="button" id="load-uploaded-btn" class="px-3.5 py-2 rounded bg-surface-container-high border border-outline-variant font-label text-label-lg text-on-surface hover:border-outline">Simulate Uploaded CSV</button>
+          </div>
+        </article>
+
+        <!-- Feature Selection & Training (5 cols) -->
+        <article class="lg:col-span-5 bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col justify-between gap-4">
+          <div class="flex flex-col gap-3">
+            <h2 class="font-body text-headline-md text-on-surface">Feature Selection</h2>
+            <div class="grid grid-cols-2 gap-2.5 text-body-sm">
+              <label class="flex items-center gap-2 p-2.5 rounded bg-surface-container-low border border-outline-variant cursor-pointer">
+                <input type="checkbox" checked class="rounded bg-surface border-outline text-primary focus:ring-primary">
+                <span class="font-mono text-mono-sm">amount_zscore</span>
+              </label>
+              <label class="flex items-center gap-2 p-2.5 rounded bg-surface-container-low border border-outline-variant cursor-pointer">
+                <input type="checkbox" checked class="rounded bg-surface border-outline text-primary focus:ring-primary">
+                <span class="font-mono text-mono-sm">device_degree</span>
+              </label>
+              <label class="flex items-center gap-2 p-2.5 rounded bg-surface-container-low border border-outline-variant cursor-pointer">
+                <input type="checkbox" checked class="rounded bg-surface border-outline text-primary focus:ring-primary">
+                <span class="font-mono text-mono-sm">geo_velocity</span>
+              </label>
+              <label class="flex items-center gap-2 p-2.5 rounded bg-surface-container-low border border-outline-variant cursor-pointer">
+                <input type="checkbox" class="rounded bg-surface border-outline text-primary focus:ring-primary">
+                <span class="font-mono text-mono-sm">merchant_age</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2 pt-2">
+            <button type="button" id="train-btn" data-component-id="button-primary" data-component-type="button" data-component-variant="primary" class="w-full px-4 py-2.5 rounded bg-primary text-on-primary font-label text-label-lg hover:bg-on-primary-container transition-colors duration-state-change">
+              Train &amp; Evaluate Model
+            </button>
+            <p id="train-result" class="hidden font-mono text-mono-sm text-success text-center">Evaluation complete: PR-AUC 0.918 • Recall 95.1%</p>
+          </div>
+        </article>
+      </section>
+
+      <!-- Missing Values & Fraud Distribution -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <article class="lg:col-span-6 bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col gap-4">
+          <h2 class="font-body text-headline-md text-on-surface">Missing-Value Analysis</h2>
+          <div class="flex flex-col gap-3">
+            <div class="flex flex-col gap-1">
+              <div class="flex justify-between text-body-sm"><span class="font-mono">device_fingerprint</span><span class="font-mono text-warning tabular-nums">1.8% missing</span></div>
+              <div class="w-full h-2 rounded-full bg-surface-container-highest"><div class="h-full bg-warning rounded-full" style="width: 18%"></div></div>
+            </div>
+            <div class="flex flex-col gap-1">
+              <div class="flex justify-between text-body-sm"><span class="font-mono">ip_asn_org</span><span class="font-mono text-info tabular-nums">0.4% missing</span></div>
+              <div class="w-full h-2 rounded-full bg-surface-container-highest"><div class="h-full bg-info rounded-full" style="width: 6%"></div></div>
+            </div>
+            <div class="flex flex-col gap-1">
+              <div class="flex justify-between text-body-sm"><span class="font-mono">amount_usd / mcc</span><span class="font-mono text-success tabular-nums">0.0% missing</span></div>
+              <div class="w-full h-2 rounded-full bg-surface-container-highest"><div class="h-full bg-success rounded-full" style="width: 100%"></div></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="lg:col-span-6 bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col justify-between gap-4">
+          <h2 class="font-body text-headline-md text-on-surface">Fraud Distribution</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-4 rounded-md bg-surface-container-low border border-outline-variant flex flex-col gap-1">
+              <span class="font-label text-label-sm text-on-surface-variant uppercase">Legitimate (Class 0)</span>
+              <span class="font-mono text-mono-lg text-on-surface tabular-nums">1,480,359</span>
+              <span class="font-mono text-mono-sm text-success">99.828%</span>
+            </div>
+            <div class="p-4 rounded-md bg-surface-container-low border border-outline-variant flex flex-col gap-1">
+              <span class="font-label text-label-sm text-on-surface-variant uppercase">Fraudulent (Class 1)</span>
+              <span class="font-mono text-mono-lg text-danger tabular-nums">2,551</span>
+              <span class="font-mono text-mono-sm text-danger">0.172%</span>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Dataset Preview Table -->
+      <section class="bg-surface-container border border-outline-variant rounded-lg overflow-hidden">
+        <header class="p-5 border-b border-outline-variant flex items-center justify-between">
+          <h2 class="font-body text-headline-md text-on-surface">Dataset Preview (Top 3 Rows)</h2>
+          <span class="font-mono text-mono-sm text-on-surface-variant">12 columns</span>
+        </header>
+        <div class="w-full overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-outline-variant bg-surface-container-low font-mono text-mono-sm text-on-surface-variant">
+                <th class="py-3 px-5">txn_id</th>
+                <th class="py-3 px-5">amount_usd</th>
+                <th class="py-3 px-5">mcc</th>
+                <th class="py-3 px-5">device_hash</th>
+                <th class="py-3 px-5">is_fraud</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant font-mono text-mono-md">
+              <tr><td class="py-3 px-5">TXN-98412-AF</td><td class="py-3 px-5 tabular-nums">4890.00</td><td class="py-3 px-5">5732</td><td class="py-3 px-5">DEV-8841-X</td><td class="py-3 px-5 text-danger">1</td></tr>
+              <tr><td class="py-3 px-5">TXN-98381-QR</td><td class="py-3 px-5 tabular-nums">184.50</td><td class="py-3 px-5">4111</td><td class="py-3 px-5">DEV-1102-A</td><td class="py-3 px-5 text-success">0</td></tr>
+              <tr><td class="py-3 px-5">TXN-98340-BN</td><td class="py-3 px-5 tabular-nums">92.40</td><td class="py-3 px-5">5411</td><td class="py-3 px-5">DEV-5520-K</td><td class="py-3 px-5 text-success">0</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const sidebar = document.getElementById('app-sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      const openBtn = document.getElementById('mobile-menu-btn');
+      const closeBtn = document.getElementById('mobile-close-btn');
+      function toggleSidebar(open) {
+        sidebar.classList.toggle('-translate-x-full', !open);
+        backdrop.classList.toggle('hidden', !open);
+      }
+      if (openBtn) openBtn.addEventListener('click', () => toggleSidebar(true));
+      if (closeBtn) closeBtn.addEventListener('click', () => toggleSidebar(false));
+      if (backdrop) backdrop.addEventListener('click', () => toggleSidebar(false));
+
+      const provBadge = document.getElementById('dataset-provenance');
+      const uploadStatus = document.getElementById('upload-status');
+
+      document.getElementById('csv-input').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        provBadge.textContent = 'Source: Uploaded Dataset';
+        provBadge.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-info-container text-on-info-container font-label text-label-sm w-fit';
+        uploadStatus.textContent = `Uploaded: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+      });
+
+      document.getElementById('load-uploaded-btn').addEventListener('click', () => {
+        provBadge.textContent = 'Source: Uploaded Dataset';
+        provBadge.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-info-container text-on-info-container font-label text-label-sm w-fit';
+        uploadStatus.textContent = 'Uploaded: custom_research_split_2026.csv (124,000 rows)';
+      });
+
+      document.getElementById('train-btn').addEventListener('click', () => {
+        const res = document.getElementById('train-result');
+        res.classList.remove('hidden');
+      });
+    })();
+  </script>
+
+
+</body></html>

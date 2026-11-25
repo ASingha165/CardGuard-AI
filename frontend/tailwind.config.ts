@@ -1,0 +1,67 @@
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  darkMode: "class",
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: "#C8F169",
+        "on-primary": "#151F00",
+        "primary-container": "#263500",
+        "on-primary-container": "#D8FF7E",
+        surface: "#101211",
+        "surface-container-lowest": "#0A0C0B",
+        "surface-container-low": "#151816",
+        "surface-container": "#1A1C1B",
+        "surface-container-high": "#222523",
+        "surface-container-highest": "#2F3130",
+        "on-surface": "#F1F1EE",
+        "on-surface-variant": "#90918F",
+        outline: "#454746",
+        "outline-variant": "#2F3130",
+        success: "#3FB950",
+        "on-success": "#002105",
+        "success-container": "#00390D",
+        "on-success-container": "#83FC89",
+        warning: "#F5B041",
+        "on-warning": "#291800",
+        "warning-container": "#442B00",
+        "on-warning-container": "#FFDDB2",
+        danger: "#FF5A5F",
+        "on-danger": "#410007",
+        "danger-container": "#680010",
+        "on-danger-container": "#FFDAD8",
+        info: "#58A6FF",
+        "on-info": "#001C38",
+        "info-container": "#00315C",
+        "on-info-container": "#D3E4FF",
+        error: "#FF5A5F",
+        "on-error": "#410007",
+      },
+      borderRadius: {
+        sm: "6px",
+        DEFAULT: "10px",
+        md: "12px",
+        lg: "16px",
+        xl: "20px",
+        full: "9999px",
+      },
+      fontFamily: {
+        display: ['"Alatsi"', "sans-serif"],
+        headline: ['"Alatsi"', "sans-serif"],
+        title: ['"Instrument Sans"', "sans-serif"],
+        body: ['"Instrument Sans"', "sans-serif"],
+        label: ['"Instrument Sans"', "sans-serif"],
+        mono: ['"Red Hat Mono"', "monospace"],
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;

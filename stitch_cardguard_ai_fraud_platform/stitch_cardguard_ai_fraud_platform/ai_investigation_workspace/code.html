@@ -1,0 +1,399 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Investigation Workspace — CardGuard AI</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">/** @type {import('tailwindcss').Config} */
+globalThis.tailwind = globalThis.tailwind || {};
+globalThis.tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        'primary': '#C8F169',
+        'on-primary': '#151F00',
+        'primary-container': '#263500',
+        'on-primary-container': '#D8FF7E',
+        'surface': '#101211',
+        'surface-container-lowest': '#0A0C0B',
+        'surface-container-low': '#151816',
+        'surface-container': '#1A1C1B',
+        'surface-container-high': '#222523',
+        'surface-container-highest': '#2F3130',
+        'on-surface': '#F1F1EE',
+        'on-surface-variant': '#90918F',
+        'outline': '#454746',
+        'outline-variant': '#2F3130',
+        'success': '#3FB950',
+        'on-success': '#002105',
+        'success-container': '#00390D',
+        'on-success-container': '#83FC89',
+        'warning': '#F5B041',
+        'on-warning': '#291800',
+        'warning-container': '#442B00',
+        'on-warning-container': '#FFDDB2',
+        'danger': '#FF5A5F',
+        'on-danger': '#410007',
+        'danger-container': '#680010',
+        'on-danger-container': '#FFDAD8',
+        'info': '#58A6FF',
+        'on-info': '#001C38',
+        'info-container': '#00315C',
+        'on-info-container': '#D3E4FF',
+        'error': '#FF5A5F',
+        'on-error': '#410007',
+      },
+      borderRadius: {
+        'sm': '6px',
+        'DEFAULT': '10px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        'full': '9999px',
+      },
+      spacing: {
+        'gutter-xs': '4px',
+        'gutter-sm': '8px',
+        'gutter-md': '16px',
+        'gutter-lg': '24px',
+        'gutter-xl': '32px',
+        'section': '40px',
+        'page-margin': '24px',
+      },
+      fontFamily: {
+        'display': ['"Alatsi"', 'sans-serif'],
+        'headline': ['"Alatsi"', 'sans-serif'],
+        'title': ['"Instrument Sans"', 'sans-serif'],
+        'body': ['"Instrument Sans"', 'sans-serif'],
+        'label': ['"Instrument Sans"', 'sans-serif'],
+        'mono': ['"Red Hat Mono"', 'monospace'],
+      },
+      fontSize: {
+        'display-lg': ['40px', { lineHeight: '44px', letterSpacing: '-0.75px', fontWeight: '400' }],
+        'display-lg-mobile': ['28px', { lineHeight: '34px', letterSpacing: '-0.5px', fontWeight: '400' }],
+        'headline-lg': ['28px', { lineHeight: '34px', letterSpacing: '-0.25px', fontWeight: '400' }],
+        'headline-md': ['20px', { lineHeight: '26px', letterSpacing: '-0.2px', fontWeight: '600' }],
+        'title-md': ['16px', { lineHeight: '22px', letterSpacing: '0px', fontWeight: '600' }],
+        'body-md': ['14px', { lineHeight: '20px', letterSpacing: '0px', fontWeight: '400' }],
+        'body-sm': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '400' }],
+        'label-lg': ['13px', { lineHeight: '18px', letterSpacing: '0.1px', fontWeight: '500' }],
+        'label-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.4px', fontWeight: '500' }],
+        'mono-lg': ['24px', { lineHeight: '30px', letterSpacing: '-0.5px', fontWeight: '600' }],
+        'mono-md': ['13px', { lineHeight: '18px', letterSpacing: '0px', fontWeight: '500' }],
+        'mono-sm': ['11px', { lineHeight: '14px', letterSpacing: '0.2px', fontWeight: '500' }],
+      },
+      transitionDuration: {
+        'state-change': '120ms',
+        'surface-enter': '220ms',
+        'surface-exit': '150ms',
+      },
+      transitionDelay: {
+        'state-change': '0ms',
+        'surface-enter': '0ms',
+        'surface-exit': '0ms',
+      },
+      transitionTimingFunction: {
+        'state-change': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-enter': 'cubic-bezier(0.2, 0, 0, 1)',
+        'surface-exit': 'cubic-bezier(0.4, 0, 1, 1)',
+      },
+    },
+  },
+};
+if (typeof module !== 'undefined') module.exports = globalThis.tailwind.config;
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Alatsi&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=Red+Hat+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet">
+  <style>.material-symbols-outlined, .material-symbols-rounded, .material-symbols-sharp, .material-icons { display: inline-block; width: 1em; height: 1em; line-height: 1 !important; box-sizing: content-box; overflow: hidden; white-space: nowrap; direction: ltr; vertical-align: middle; }</style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased selection:bg-primary selection:text-on-primary">
+
+  <div class="min-h-[1024px] flex flex-col lg:flex-row" data-stitch-vh="min-h-[1024px]===min-h-screen">
+    <!-- Mobile Top Bar -->
+    <header class="lg:hidden sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-surface-container-low border-b border-outline-variant">
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-primary-container text-primary">
+          <span class="material-symbols-outlined text-title-md">shield_lock</span>
+        </span>
+        <span data-design-text-token="title-md" class="font-title text-title-md text-on-surface">CardGuard AI</span>
+      </div>
+      <button type="button" id="mobile-menu-btn" aria-label="Open navigation" class="inline-flex items-center justify-center w-9 h-9 rounded bg-surface-container-high border border-outline-variant text-on-surface">
+        <span class="material-symbols-outlined text-title-md">menu</span>
+      </button>
+    </header>
+
+    <div id="sidebar-backdrop" class="hidden fixed inset-0 z-40 bg-surface-container-lowest/80 lg:hidden"></div>
+
+    <!-- Shared Sidebar Navigation -->
+    <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 -translate-x-full lg:translate-x-0 lg:sticky lg:top-0 min-h-[1024px] bg-surface-container-low border-r border-outline-variant flex flex-col justify-between p-4 transition-transform duration-surface-enter ease-surface-enter" data-stitch-vh="min-h-[1024px]===min-h-screen">
+      <div class="flex flex-col gap-6">
+        <div class="flex items-center justify-between px-2 pt-1">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-md bg-primary-container text-primary border border-primary/25">
+              <span class="material-symbols-outlined text-headline-md">shield_lock</span>
+            </span>
+            <div class="flex flex-col">
+              <span data-design-text-token="title-md" class="font-title text-title-md text-on-surface">CardGuard AI</span>
+              <span data-design-text-token="mono-sm" class="font-mono text-mono-sm text-on-surface-variant">v4.2 • Fraud Intel</span>
+            </div>
+          </div>
+          <button type="button" id="mobile-close-btn" aria-label="Close navigation" class="lg:hidden inline-flex items-center justify-center w-8 h-8 rounded text-on-surface-variant hover:text-on-surface">
+            <span class="material-symbols-outlined text-title-md">close</span>
+          </button>
+        </div>
+
+        <nav aria-label="Primary" class="flex flex-col gap-1">
+          <a href="../executive-dashboard/ExecutiveDashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">monitoring</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Executive Dashboard</span>
+          </a>
+          <a href="../transaction-intelligence/TransactionIntelligence.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">receipt_long</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Transaction Intel</span>
+          </a>
+          <a href="../ai-investigation/AIInvestigationWorkspace.html" aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded bg-primary-container text-on-primary-container border border-primary/25 transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md text-primary" aria-hidden="true">psychology</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">AI Investigation</span>
+          </a>
+          <a href="../fraud-network/FraudNetworkExplorer.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">hub</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Fraud Network</span>
+          </a>
+          <a href="../model-intelligence/ModelIntelligence.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">model_training</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Model Intelligence</span>
+          </a>
+          <a href="../dataset-laboratory/DatasetLaboratory.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">science</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Dataset Laboratory</span>
+          </a>
+          <a href="../reports-history/ReportsHistory.html" class="flex items-center gap-3 px-3 py-2.5 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors duration-state-change">
+            <span class="material-symbols-outlined text-title-md" aria-hidden="true">description</span>
+            <span data-design-text-token="label-lg" class="font-label text-label-lg">Reports &amp; History</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="pt-4 border-t border-outline-variant flex flex-col gap-2 px-2">
+        <span data-component-id="badge-status" data-component-type="badge" data-component-variant="status" role="status" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container border border-primary/25 w-fit">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+          <span data-design-text-token="label-sm" class="font-label text-label-sm">Synthetic Demo Data</span>
+        </span>
+        <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">
+          CardGuard-Synthetic-v4.2 • Non-production telemetry
+        </p>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 max-w-[1440px] mx-auto w-full flex flex-col gap-6">
+      <header class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <h1 data-design-text-token="display-lg" class="font-headline text-display-lg-mobile lg:text-display-lg text-on-surface text-balance">AI Investigation Workspace</h1>
+          <p data-design-text-token="body-md" class="font-body text-body-md text-on-surface-variant text-pretty">
+            Transparent attribution separating observed telemetry evidence from model inference.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <select id="case-select" aria-label="Select transaction case" class="rounded bg-surface-container border border-outline-variant px-3.5 py-2 font-mono text-mono-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary">
+            <option value="TXN-98412-AF">TXN-98412-AF • $4,890.00 (Score 94)</option>
+            <option value="TXN-98409-KL">TXN-98409-KL • $2,340.00 (Score 88)</option>
+            <option value="TXN-98395-MP">TXN-98395-MP • $7,120.00 (Score 79)</option>
+          </select>
+          <button type="button" id="escalate-btn" data-component-id="button-destructive" data-component-type="button" data-component-variant="destructive" class="px-4 py-2 rounded bg-danger-container text-on-danger-container border border-danger/30 font-label text-label-lg hover:bg-danger hover:text-on-danger transition-colors duration-state-change">
+            Escalate Fraud Case
+          </button>
+        </div>
+      </header>
+
+      <!-- Evidence vs Inference Split -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <!-- Left: Observed Evidence (6 cols) -->
+        <article class="lg:col-span-6 bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col gap-5">
+          <header class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-info text-headline-md" aria-hidden="true">fact_check</span>
+              <h2 data-design-text-token="headline-md" class="font-body text-headline-md text-on-surface">Observed Evidence</h2>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-info-container text-on-info-container font-label text-label-sm">Direct Telemetry</span>
+          </header>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-4 rounded-md bg-surface-container-low border border-outline-variant flex flex-col gap-1">
+              <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant uppercase">Transaction Amount</span>
+              <span id="obs-amount" data-design-text-token="mono-lg" class="font-mono text-mono-lg text-on-surface tabular-nums">$4,890.00</span>
+              <span id="obs-baseline" data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">90-day avg: $1,164.00 (4.2x)</span>
+            </div>
+            <div class="p-4 rounded-md bg-surface-container-low border border-outline-variant flex flex-col gap-1">
+              <span data-design-text-token="label-sm" class="font-label text-label-sm text-on-surface-variant uppercase">Device &amp; Geolocation</span>
+              <span id="obs-device" data-design-text-token="mono-md" class="font-mono text-mono-md text-on-surface">DEV-8841-X (New)</span>
+              <span id="obs-geo" data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">Berlin, DE • 6,420 km from home</span>
+            </div>
+          </div>
+
+          <!-- Historical Pattern Comparison -->
+          <div class="flex flex-col gap-3 pt-2">
+            <h3 data-design-text-token="title-md" class="font-title text-title-md text-on-surface">Behavior vs. Historical Baseline</h3>
+            <div class="flex flex-col gap-2.5">
+              <div class="flex items-center justify-between text-body-sm">
+                <span class="text-on-surface-variant">Hourly Velocity</span>
+                <span id="cmp-velocity" class="font-mono text-on-surface tabular-nums">4 txns / 11m (baseline: 0.2)</span>
+              </div>
+              <div class="flex items-center justify-between text-body-sm">
+                <span class="text-on-surface-variant">Merchant Category</span>
+                <span id="cmp-mcc" class="font-mono text-on-surface">MCC 5732 Electronics (rare)</span>
+              </div>
+              <div class="flex items-center justify-between text-body-sm">
+                <span class="text-on-surface-variant">Auth Method</span>
+                <span id="cmp-auth" class="font-mono text-on-surface">CNP • 3DS Bypassed</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Right: Model Inference (6 cols) -->
+        <article class="lg:col-span-6 bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col gap-5">
+          <header class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-primary text-headline-md" aria-hidden="true">psychology</span>
+              <h2 data-design-text-token="headline-md" class="font-body text-headline-md text-on-surface">Model Inference</h2>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container font-label text-label-sm">Ensemble Estimate</span>
+          </header>
+
+          <!-- Contributing Risk Factors -->
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <span data-design-text-token="label-lg" class="font-label text-label-lg text-on-surface">Contributing Risk Factors (SHAP Attribution)</span>
+              <span id="inf-score" data-design-text-token="mono-md" class="font-mono text-mono-md text-danger tabular-nums">Risk: 94 / 100</span>
+            </div>
+
+            <div class="flex flex-col gap-3">
+              <div class="flex flex-col gap-1">
+                <div class="flex justify-between text-body-sm">
+                  <span class="text-on-surface">Device Fingerprint Reuse (DEV-8841-X)</span>
+                  <span class="font-mono text-danger tabular-nums">+0.38</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-surface-container-highest"><div class="h-full bg-danger rounded-full" style="width: 82%"></div></div>
+              </div>
+              <div class="flex flex-col gap-1">
+                <div class="flex justify-between text-body-sm">
+                  <span class="text-on-surface">Amount Z-Score Deviation (+4.2σ)</span>
+                  <span class="font-mono text-warning tabular-nums">+0.27</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-surface-container-highest"><div class="h-full bg-warning rounded-full" style="width: 64%"></div></div>
+              </div>
+              <div class="flex flex-col gap-1">
+                <div class="flex justify-between text-body-sm">
+                  <span class="text-on-surface">Cross-Border IP Distance</span>
+                  <span class="font-mono text-primary tabular-nums">+0.19</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-surface-container-highest"><div class="h-full bg-primary rounded-full" style="width: 48%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Confidence & Limitations -->
+          <div class="p-4 rounded-md bg-surface-container-low border border-outline-variant flex flex-col gap-1.5">
+            <div class="flex items-center justify-between">
+              <span data-design-text-token="label-lg" class="font-label text-label-lg text-on-surface">Model Confidence &amp; Limitations</span>
+              <span id="inf-conf" data-design-text-token="mono-md" class="font-mono text-mono-md text-primary tabular-nums">91.4% Confidence</span>
+            </div>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant text-pretty">
+              Isolation Forest and XGBoost+SMOTE agree on high anomaly probability. Limitation: Synthetic training set under-represents legitimate international business travel.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <!-- AI Investigation Summary -->
+      <article data-component-id="card-action" data-component-type="card" data-component-variant="action" class="bg-surface-container border border-outline-variant rounded-lg p-6 flex flex-col gap-4">
+        <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex flex-col gap-0.5">
+            <h2 data-design-text-token="headline-md" class="font-body text-headline-md text-on-surface">Investigation Summary</h2>
+            <p data-design-text-token="body-sm" class="font-body text-body-sm text-on-surface-variant">Structured narrative synthesized for compliance audit logs</p>
+          </div>
+          <button type="button" id="generate-summary-btn" data-component-id="button-primary" data-component-type="button" data-component-variant="primary" class="px-4 py-2 rounded bg-primary text-on-primary font-label text-label-lg hover:bg-on-primary-container transition-colors duration-state-change w-fit">
+            Regenerate Summary
+          </button>
+        </header>
+
+        <p id="summary-text" data-design-text-token="body-md" class="font-body text-body-md text-on-surface leading-relaxed text-pretty max-w-prose">
+          Observed telemetry confirms TXN-98412-AF ($4,890.00 at Nordic Electronics GmbH) originated from an unrecognized device fingerprint (DEV-8841-X) in Berlin, DE, 6,420 km from the cardholder&#39;s established home region. Model inference attributes 84% of the 94/100 risk score to shared device reuse across multiple cards within 18 minutes and a 4.2x amount spike. Recommended action: hold settlement and verify cardholder travel status.
+        </p>
+
+        <footer id="action-status" class="hidden pt-3 border-t border-outline-variant flex items-center gap-2 text-success font-label text-label-lg">
+          <span class="material-symbols-outlined text-title-md" aria-hidden="true">check_circle</span>
+          <span id="action-status-text">Summary updated.</span>
+        </footer>
+      </article>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const sidebar = document.getElementById('app-sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      const openBtn = document.getElementById('mobile-menu-btn');
+      const closeBtn = document.getElementById('mobile-close-btn');
+      function toggleSidebar(open) {
+        sidebar.classList.toggle('-translate-x-full', !open);
+        backdrop.classList.toggle('hidden', !open);
+      }
+      if (openBtn) openBtn.addEventListener('click', () => toggleSidebar(true));
+      if (closeBtn) closeBtn.addEventListener('click', () => toggleSidebar(false));
+      if (backdrop) backdrop.addEventListener('click', () => toggleSidebar(false));
+
+      const cases = {
+        'TXN-98412-AF': {
+          amount: '$4,890.00', baseline: '90-day avg: $1,164.00 (4.2x)', device: 'DEV-8841-X (New)', geo: 'Berlin, DE • 6,420 km from home',
+          velocity: '4 txns / 11m (baseline: 0.2)', mcc: 'MCC 5732 Electronics (rare)', auth: 'CNP • 3DS Bypassed',
+          score: 'Risk: 94 / 100', conf: '91.4% Confidence',
+          summary: 'Observed telemetry confirms TXN-98412-AF ($4,890.00 at Nordic Electronics GmbH) originated from an unrecognized device fingerprint (DEV-8841-X) in Berlin, DE, 6,420 km from the cardholder\'s established home region. Model inference attributes 84% of the 94/100 risk score to shared device reuse across multiple cards within 18 minutes and a 4.2x amount spike.'
+        },
+        'TXN-98409-KL': {
+          amount: '$2,340.00', baseline: '90-day avg: $410.00 (5.7x)', device: 'DEV-8841-X (Shared)', geo: 'Frankfurt, DE • VPN Exit',
+          velocity: '3 txns / 18m (baseline: 0.1)', mcc: 'MCC 5734 Cloud Software', auth: 'CNP • Tokenized',
+          score: 'Risk: 88 / 100', conf: '88.7% Confidence',
+          summary: 'Observed telemetry links TXN-98409-KL ($2,340.00 at Vortex Digital Cloud) to device hash DEV-8841-X, which also initiated TXN-98412-AF on a separate card. Model inference flags high-velocity cloud-compute provisioning via a known VPN exit node.'
+        },
+        'TXN-98395-MP': {
+          amount: '$7,120.00', baseline: '90-day avg: $2,100.00 (3.4x)', device: 'DEV-3019-M (Known)', geo: 'London, UK • Local IP',
+          velocity: '1 txn / 24h (normal)', mcc: 'MCC 5944 Luxury Jewelry', auth: 'EMV • PIN Verified',
+          score: 'Risk: 79 / 100', conf: '76.2% Confidence',
+          summary: 'Observed telemetry shows a high-ticket purchase ($7,120.00 at Apex Luxury Watches) on a recognized device with PIN verification. Model inference elevates risk due to luxury MCC rarity; lower confidence reflects clean device and geolocation signals.'
+        }
+      };
+
+      const select = document.getElementById('case-select');
+      select.addEventListener('change', (e) => {
+        const c = cases[e.target.value];
+        document.getElementById('obs-amount').textContent = c.amount;
+        document.getElementById('obs-baseline').textContent = c.baseline;
+        document.getElementById('obs-device').textContent = c.device;
+        document.getElementById('obs-geo').textContent = c.geo;
+        document.getElementById('cmp-velocity').textContent = c.velocity;
+        document.getElementById('cmp-mcc').textContent = c.mcc;
+        document.getElementById('cmp-auth').textContent = c.auth;
+        document.getElementById('inf-score').textContent = c.score;
+        document.getElementById('inf-conf').textContent = c.conf;
+        document.getElementById('summary-text').textContent = c.summary;
+        document.getElementById('action-status').classList.add('hidden');
+      });
+
+      const statusEl = document.getElementById('action-status');
+      const statusText = document.getElementById('action-status-text');
+      document.getElementById('generate-summary-btn').addEventListener('click', () => {
+        statusText.textContent = `Summary regenerated at ${new Date().toISOString().slice(11, 19)} UTC.`;
+        statusEl.classList.remove('hidden');
+      });
+      document.getElementById('escalate-btn').addEventListener('click', () => {
+        statusText.textContent = `Case ${select.value} escalated to Investigation History.`;
+        statusEl.classList.remove('hidden');
+      });
+    })();
+  </script>
+
+
+</body></html>
