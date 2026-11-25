@@ -14,7 +14,6 @@ from typing import Any, Dict, List, Optional, Tuple
 import joblib
 import numpy as np
 import pandas as pd
-import shap
 from imblearn.over_sampling import SMOTE
 from sklearn.ensemble import IsolationForest
 from sklearn.metrics import (
@@ -373,19 +372,25 @@ def explain_transaction_shap(
     row_features: Dict[str, float],
     model_dir: str,
 ) -> List[Dict[str, Any]]:
-    """Compute per-transaction SHAP feature attributions using XGBoost TreeExplainer."""
+    """Compute per-transaction XGBoost-native TreeSHAP feature attributions."""
     xgb_path = Path(model_dir) / "xgboost_fraud.joblib"
     vec = np.array([[float(row_features.get(f, 0.0)) for f in FEATURE_COLUMNS]])
 
     if xgb_path.exists():
         bundle = joblib.load(xgb_path)
         vec_scaled = bundle["scaler"].transform(vec)
-        explainer = shap.TreeExplainer(bundle["model"])
-        shap_vals = explainer.shap_values(vec_scaled)
-        if isinstance(shap_vals, list):
-            shap_arr = np.array(shap_vals[1][0], dtype=float)
-        else:
-            shap_arr = np.array(shap_vals[0], dtype=float)
+        # XGBoost exposes TreeSHAP contributions natively. This avoids the
+        # separate SHAP package (and its large numba/llvmlite dependency tree).
+        try:
+            from xgboost import DMatrix
+            contributions = bundle["model"].get_booster().predict(
+                DMatrix(vec_scaled), pred_contribs=True
+            )
+            shap_arr = np.asarray(contributions[0][:-1], dtype=float)
+        except (AttributeError, TypeError, ValueError):
+            # Compatibility fallback for older or non-tree estimators.
+            importances = np.asarray(bundle["model"].feature_importances_, dtype=float)
+            shap_arr = np.asarray(vec_scaled[0], dtype=float) * importances
     else:
         # Deterministic z-score fallback if model artifact is not yet on disk
         shap_arr = np.array([
