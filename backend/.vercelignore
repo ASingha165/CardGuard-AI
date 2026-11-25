@@ -1,0 +1,22 @@
+# Exclude development-only and local artifacts from the Vercel backend bundle
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+tests/
+test_*.py
+*.db
+*.sqlite
+*.sqlite3
+.env
+.env.*
+!.env.example
+data/
+*.joblib
+*.pkl
+*.pickle
+*.csv
+*.parquet
+*.log
